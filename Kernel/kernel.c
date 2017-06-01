@@ -3,6 +3,12 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <video.h>
+#include <rtc.h>
+#include <keyboard.h>
+#include <interrupts.h>
+#include <mouse.h>
+
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -11,6 +17,8 @@ extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
+
+
 static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
@@ -18,7 +26,7 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 
 typedef int (*EntryPoint)();
 
-
+void read();
 void clearBSS(void * bssAddress, uint64_t bssSize)
 {
 	memset(bssAddress, 0, bssSize);
@@ -32,6 +40,8 @@ void * getStackBase()
 		- sizeof(uint64_t)			//Begin at the top of the stack
 	);
 }
+
+
 
 void * initializeKernelBinary()
 {
@@ -100,5 +110,30 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
-	return 0;
+	
+	clear();
+	printMsg(0,1,"Arquitecturas de computadoras",0x0F);
+
+	char time[9];
+	printMsg(1,0,"La hora local es:",0x0F);
+	
+	
+	cli();
+	keyboardInitialize();
+	
+	loadIDT();
+	mouse_init();
+	enablePIC();
+	sti();
+	//test();
+	unsigned char c = detect_ps2_mouse();
+	c+='0';
+	printChar(6,0,c,0x20);
+	consumeBuffer('\n');
+	
+	while(1);
+	
+	
+	
 }
+

@@ -8,6 +8,7 @@ void udrawMouse(int f, int c);
 void drawMouse(int f, int c);
 void putChar( char a ) ;
 void forwardCursor();
+void forwardCursorB();
 void scroll();
 void backwardCursor();
 int validPosition(int f, int c);

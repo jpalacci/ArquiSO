@@ -123,10 +123,15 @@ void mouse_handlerC()
 						}
 						if(mouse_byte[0] & 0x01)
 						{
-							printMsg(4,0,"Left Click",0x20);
 							if(selecting){
-								xfin=x;
-								yfin=y;
+								if(yfin<yinit || ((yfin==yinit) &&(xfin<xinit))){
+									undoSelection( yfin, xfin,yinit, xinit);
+
+								}else{
+									undoSelection(yinit, xinit, yfin, xfin);
+								}
+							xfin=x;
+							yfin=y;
 								
 							
 							}else{
@@ -136,15 +141,26 @@ void mouse_handlerC()
 								xfin=x;
 								yfin=y;
 							}
-							selection(yinit, xinit, yfin, xfin);
+							if(yfin<yinit ||( (yfin==yinit) &&(xfin<xinit))){
+								selection( yfin, xfin,yinit, xinit);
+							
+							}else{
+								selection(yinit, xinit, yfin, xfin);
+							}
 							
 						}else{
 							if(selecting){
-								undoSelection(yinit, xinit, yfin, xfin);
-								selecting=0;
+								if(yfin<yinit || ((yfin==yinit) &&(xfin<xinit))){
+									undoSelection( yfin, xfin,yinit, xinit);
+
+							}else{
+									undoSelection(yinit, xinit, yfin, xfin);
 							}
+							selecting=0;
+							updateScreen();
 
 						}
+					}
 						
 						if(mouse_byte[0] & 0x02)
 						{
@@ -171,6 +187,7 @@ void mouse_handlerC()
 						if(x+rel_x/10 < 80 && x+rel_x/10>=0)x+=rel_x/10;
 						if(y-rel_y/10 < 25 && y-rel_y/10>=0)y-=rel_y/10;
 						drawMouse(y,x);
+						updateScreen();
 
 						
 					

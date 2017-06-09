@@ -8,6 +8,7 @@
 #define HEIGHT 25
 
 static char video[HEIGHT][WIDTH];
+static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
 static int j=0;  // posicion del cursor vertical
 
@@ -25,6 +26,7 @@ void updateScreen(){
 	for(int c=0; c<WIDTH; c++){
 		for(int f=0; f<HEIGHT;f++){
 			*(screen + f*WIDTH*2 + c*2)= video[f][c];
+			*(screen + f*WIDTH*2 + c*2 +1)= attributes[f][c];
 		}
 	}
 }
@@ -36,13 +38,14 @@ int getScreen(int f, int c){
 }
 
 void selection(int finit, int cinit, int ffin, int cfin){
-
+ 
 	int auxi=i;
 	int auxj=j;	
 	setCursor(finit, cinit);
-	while(!(i>cfin && j>ffin)){
+	while(validPosition(j,i) && (j<ffin || ((j==ffin) && (i<=cfin)) ) ){
+		
 		drawMouse(j,i);
-		forwardCursor();
+		forwardCursorB();
 	}
 	setCursor(auxj, auxi);
 
@@ -61,7 +64,7 @@ void undoSelection(int finit, int cinit, int ffin, int cfin){
 	int auxi=i;
 	int auxj=j;	
 	setCursor(finit, cinit);
-	while(!(i>cfin && j>ffin)){
+	while(j<ffin || ((j==ffin) && (i<=cfin)) ){
 		udrawMouse(j,i);
 		forwardCursor();
 	}
@@ -73,8 +76,22 @@ void forwardCursor(){
 
 	if(i==WIDTH-1){
 		if(j==HEIGHT-1){
-			scroll();
+			 scroll();
 			updateScreen();
+		}else{
+			j++;
+			i=0;
+		}
+	}else{
+		i++;
+	}
+
+}
+void forwardCursorB(){
+
+	if(i==WIDTH-1){
+		if(j==HEIGHT-1){
+			 return;
 		}else{
 			j++;
 			i=0;
@@ -104,6 +121,7 @@ void scroll(){
 void copyRow(int from, int to){
 	for(int k=0; k<WIDTH;k++){
 		video[to][k]=video[from][k];
+		attributes[to][k]=attributes[from][k];
 		clearPosition(from,k);
 	}
 }
@@ -141,20 +159,16 @@ void printChar(int f, int c,  char a,  char color)
 
 
 void drawMouse(int f, int c){
-	char * first = (char*)SCREEN;
-	 char * position = WIDTH*f*2 + c*2 + first;
-	position++;
-	*position= 0x33; //color celeste
+	if(!validPosition(f,c)) return;
+	attributes[f][c]=(char) 0x30;
 }
 void udrawMouse(int f, int c){
-	 char * first = (char*)SCREEN;
-	char * position = WIDTH*f*2 + c*2 + first;
-	position++;
-	*position= (char)DEFAULT; // fondo negro con blanco como texto
+	if(!validPosition(f,c)) return;
+	 attributes[f][c]=(char)DEFAULT; // fondo negro con blanco como texto
 }
 
 int validPosition(int f, int c){
-	return (f>=HEIGHT || c>WIDTH)? 0:1;
+	return (f>=HEIGHT || c>=WIDTH)? 0:1;
 }
 
 void printMsg(int f, int c,  char*msg, char color)
@@ -183,15 +197,14 @@ void printMsgCursor( char * msg) // cursor position, default color
 
 
 void clear()
-{	
-	char * screen = (char*)SCREEN;
+{
 
 
 	
 	for(int f=0; f<HEIGHT; f++){
 		for(int c=0; c<WIDTH; c ++){
 			video[f][c]=' ';
-			*(screen + f*WIDTH*2 + c*2 + 1 )=(char)DEFAULT;
+			attributes[f][c] = (char)DEFAULT;
 		}
 	}
 

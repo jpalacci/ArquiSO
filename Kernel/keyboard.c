@@ -153,14 +153,14 @@ void keyboardHandlerC(){
 			bufferPosition = bufferStart +1 ;
 		}
 		if(bufferConsume == bufferPosition){
-			printChar(3,counter+=1,'B', 0x0F);
+			putChar('B');
 			return ; //el buffer esta lleno
 		}
 
 		if(caps==ON){
 			*bufferPosition = kbd_EN[(int)c][3];
 			if(isEcho){
-				printChar(3,counter+=1,*bufferPosition, 0x0F);
+				putChar(*bufferPosition);
 			}
 			bufferPosition++;
 			return;
@@ -168,14 +168,14 @@ void keyboardHandlerC(){
 		if(shift==ON){
 			*bufferPosition = kbd_EN[(int)c][2];
 			if(isEcho){
-				printChar(3,counter+=1,*bufferPosition, 0x0F);
+				putChar(*bufferPosition);
 			}
 			bufferPosition++;
 			return;
 		}
 		*bufferPosition = kbd_EN[(int)c][1];
 		if(isEcho){
-			printChar(3,counter+=1,*bufferPosition, 0x0F);
+			putChar(*bufferPosition);
 		}
 		bufferPosition++;
 
@@ -209,12 +209,12 @@ void keyboardHandlerC(){
 			if(bufferConsume == bufferStart + bufferSize){
 				bufferConsume = bufferStart;
 			}
-			printChar(3,counter+=1,*bufferConsume, 0x0F);
+			putChar(*bufferConsume);
 			bufferConsume++;
 		}
 		bufferPosition++;
 		if(bufferPosition == bufferStart + bufferSize + 1){
-			printChar(3,counter+=1,'g', 0x0F);
+			putChar('g');
 			bufferPosition = bufferStart + 1;
 		}
 	}

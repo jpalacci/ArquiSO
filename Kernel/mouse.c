@@ -87,8 +87,13 @@ uint8_t mouse_read()
 	return t;
 }
 
-static int x=0;
-static int y=0;
+static int x=10;
+static int y=10;
+static int xinit=0;
+static int yinit=0;
+static int xfin=0;
+static int yfin=0;
+static int selecting=0;
 void mouse_handlerC()
 {
 	printMsg(10,0,"hey",0x20);
@@ -98,6 +103,7 @@ void mouse_handlerC()
 		int8_t mouse_in = inputb(0x60);
 		if(status & 0x20)
 		{
+			
 			switch(mouse_cycle)
 			{
 				case 0:
@@ -118,15 +124,28 @@ void mouse_handlerC()
 						if(mouse_byte[0] & 0x01)
 						{
 							printMsg(4,0,"Left Click",0x20);
-							printMsg(y,x," ",0x00);
+							if(selecting){
+								xfin=x;
+								yfin=y;
+								
+							
+							}else{
+								selecting=1;
+								xinit=x;
+								yinit=y;
+								xfin=x;
+								yfin=y;
+							}
+							selection(yinit, xinit, yfin, xfin);
+							
+						}else{
+							if(selecting){
+								undoSelection(yinit, xinit, yfin, xfin);
+								selecting=0;
+							}
 
-							udrawMouse(y,x);
-							x=15;
-							y=10;
-							drawMouse(y,x);
-							mouse_cycle=0;
-							break;
 						}
+						
 						if(mouse_byte[0] & 0x02)
 						{
 							printMsg(4,0,"Right Click",0x20);
@@ -149,8 +168,8 @@ void mouse_handlerC()
 							rel_y=mouse_byte[2];
 						}
 						udrawMouse(y,x);
-						x+=rel_x/10;
-						y-=rel_y/10;
+						if(x+rel_x/10 < 80 && x+rel_x/10>=0)x+=rel_x/10;
+						if(y-rel_y/10 < 25 && y-rel_y/10>=0)y-=rel_y/10;
 						drawMouse(y,x);
 
 						

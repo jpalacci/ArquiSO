@@ -1,70 +1,199 @@
-void printChar(int f, int c, char a, char color)
-{
-	
-	char * first = (char*)0xB8000;
-	char * position = 80*f*2 + c*2 + first;
-	*position = a;
-	position++;
-	*position = color;
+#include <video.h>
+
+#define SCREEN 0xB8000
+#define BLACK 0x00
+#define SPACE 0x20
+#define DEFAULT 0x0F
+#define WIDTH 80
+#define HEIGHT 25
+
+static char video[HEIGHT][WIDTH];
+static int i=0; //posicion del cursor horizontal
+static int j=0;  // posicion del cursor vertical
+
+void putChar(char a ) { // se define color estandar
+		printChar(j,i, a ,DEFAULT );
+		forwardCursor();
+}
+void setCursor(int f, int c){
+	if(!validPosition(f,c)) return;
+	i=c;
+	j=f;
+}
+void updateScreen(){
+	char * screen = (char*) SCREEN;
+	for(int c=0; c<WIDTH; c++){
+		for(int f=0; f<HEIGHT;f++){
+			*(screen + f*WIDTH*2 + c*2)= video[f][c];
+		}
+	}
+}
+int getScreen(int f, int c){
+	if(!validPosition(f,c)){
+		return -1;
+	}
+	return (char)video[f][c];
+}
+
+void selection(int finit, int cinit, int ffin, int cfin){
+
+	int auxi=i;
+	int auxj=j;	
+	setCursor(finit, cinit);
+	while(!(i>cfin && j>ffin)){
+		drawMouse(j,i);
+		forwardCursor();
+	}
+	setCursor(auxj, auxi);
 
 }
+
+void changeColor(int f, int c, char color){
+
+		char * screen = (char*)SCREEN;
+
+	*(screen + f*WIDTH*2 + c*2 + 1 )=(char)color;
+		
+
+}
+
+void undoSelection(int finit, int cinit, int ffin, int cfin){
+	int auxi=i;
+	int auxj=j;	
+	setCursor(finit, cinit);
+	while(!(i>cfin && j>ffin)){
+		udrawMouse(j,i);
+		forwardCursor();
+	}
+	setCursor(auxj, auxi);
+
+}
+
+void forwardCursor(){
+
+	if(i==WIDTH-1){
+		if(j==HEIGHT-1){
+			scroll();
+			updateScreen();
+		}else{
+			j++;
+			i=0;
+		}
+	}else{
+		i++;
+	}
+
+}
+
+void lineJump(){
+	int aux= j +1;
+	while(j!=aux){
+		forwardCursor();
+	}
+}
+
+void scroll(){
+	int auxf;
+	for(auxf=1; auxf<HEIGHT;auxf++){
+		copyRow(auxf,auxf-1);
+	}
+	clearRow(HEIGHT-1);
+	j=HEIGHT-1;
+	i=0;
+}
+void copyRow(int from, int to){
+	for(int k=0; k<WIDTH;k++){
+		video[to][k]=video[from][k];
+		clearPosition(from,k);
+	}
+}
+void clearRow(int f){
+	int k;
+	for(k=0;k<WIDTH;k++){
+		clearPosition(f,k);
+	}
+}
+void clearPosition(int f, int c){
+	if(!validPosition(f,c)) return;
+	video[f][c]=' ';
+}
+void backwardCursor(){
+	if(i==0){
+		if(j!=0){
+			j--;
+			i=WIDTH-1;
+		}
+		//Llegamos a principio pantalla, nada que borrar
+	}else{
+		i--;
+
+	}
+}		
+
+
+void printChar(int f, int c,  char a,  char color)
+{
+	if(!validPosition(f,c)) return;
+	video[f][c] = a;
+	updateScreen();
+
+}
+
 
 void drawMouse(int f, int c){
-	char * first = (char*)0xB8000;
-	char * position = 80*f*2 + c*2 + first;
+	char * first = (char*)SCREEN;
+	 char * position = WIDTH*f*2 + c*2 + first;
 	position++;
-	*position= 0x33;
+	*position= 0x33; //color celeste
 }
 void udrawMouse(int f, int c){
-	char * first = (char*)0xB8000;
-	char * position = 80*f*2 + c*2 + first;
+	 char * first = (char*)SCREEN;
+	char * position = WIDTH*f*2 + c*2 + first;
 	position++;
-	*position= 0x0F;
+	*position= (char)DEFAULT; // fondo negro con blanco como texto
 }
 
-void printMsg(int f, int c, char*msg, char color)
-{
-	char * first = (char*)0xB8000 ;
-	char * position = 80*f*2 + c*2 + first;
+int validPosition(int f, int c){
+	return (f>=HEIGHT || c>WIDTH)? 0:1;
+}
 
+void printMsg(int f, int c,  char*msg, char color)
+{	
+	if(!validPosition(f,c)) return;
+	int previ=i;
+	int prevj=j; //recuerdo posiciones del mouse
+	i=c;
+	j=f;
 	while(*msg)
 	{
-		*position = *msg;
-		position++;
-		*position = color;
-		position++;
+		putChar(*msg);
+		msg++;
+	}
+	i=previ;
+	j=prevj;
+}
+void printMsgCursor( char * msg) // cursor position, default color
+{
+	while(*msg)
+	{
+		putChar(*msg);
 		msg++;
 	}
 }
 
 
 void clear()
-{
-	char * first = (char*)0xB8000;
-	int i;
-	for(i = 0; i<80*25*2; i++)
-	{
-		if(i%2 == 0)
-		{
-			*(first+i)=0x20;
-		}
-		else
-		{
-			*(first+i)=0x00;
-		}
-	}
-}
+{	
+	char * screen = (char*)SCREEN;
 
-void matrix()
-{
-	char * first = (char*)0xB8000;
-	int i;
-	for(i=0;i<80*25*2; i+=2)
-	{
-		if(i%8==0)
-		{
-			*(first+i)='|';
-			*(first+i+1)=0x20;
+
+	
+	for(int f=0; f<HEIGHT; f++){
+		for(int c=0; c<WIDTH; c ++){
+			video[f][c]=' ';
+			*(screen + f*WIDTH*2 + c*2 + 1 )=(char)DEFAULT;
 		}
 	}
+
+	updateScreen();
 }

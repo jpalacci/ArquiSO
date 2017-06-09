@@ -16,6 +16,11 @@ GLOBAL keyboardInitialize
 EXTERN keyboardInitializeC
 GLOBAL cli
 
+GLOBAL master
+GLOBAL slave
+
+EXTERN spure
+
 section .text
 	
 cpuVendor:
@@ -84,7 +89,7 @@ keyboardHandler:
 	iretq
 
 timerTickHandler:
-		cli
+	cli
 	push rbp
 	mov rbp, rsp
 
@@ -94,11 +99,12 @@ timerTickHandler:
 
 	mov rsp, rbp
 	pop rbp
-		sti
+	sti
 	iretq
 
 syscallHandler:
-      
+      	push rbp
+	mov rbp, rsp
         cmp rax,0x04
         je sys_write
         mov al, 20h
@@ -107,6 +113,21 @@ syscallHandler:
         pop rbp
         iretq
 
+master:
+	call spure
+	mov al, 20h
+	out 20h, al
+	ret
+
+slave:
+
+	call spure
+	mov al, 20h
+	out 0A0h, al
+	out 20h, al
+	ret
+
+	
 sys_write:
     
         push rbp
@@ -139,7 +160,7 @@ mouse_handler:
 
 	mov rsp, rbp
 	pop rbp
-		sti
+	sti
 	iretq
 
 cli:

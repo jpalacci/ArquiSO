@@ -1,4 +1,4 @@
-void setIDTEntry(uint64_t offset, uint16_t entry, uint8_t attr);
+void setIDTEntry(uint64_t offset, int entry);
 void loadIDT();
 void enablePIC();
 void timerTickHandlerC();
@@ -7,3 +7,4 @@ void sti();
 void keyboardHandlerC();
 void keyboardHandler();
 void registrer_Mouse();
+void spure();

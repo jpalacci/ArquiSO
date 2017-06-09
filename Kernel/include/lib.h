@@ -2,6 +2,7 @@
 #define LIB_H
 
 #include <stdint.h>
+#include <interrupts.h>
 #include <keyboard.h>
 
 void * memset(void * destination, int32_t character, uint64_t length);
@@ -21,6 +22,8 @@ void test();
 void keyboardInitialize();
 void cli();
 
+void master();
+void slave();
 void mouse_handler();
 
 

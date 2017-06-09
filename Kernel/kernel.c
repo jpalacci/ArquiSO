@@ -112,10 +112,7 @@ int main()
 	ncPrint("[Finished]");
 	
 	clear();
-	printMsg(0,1,"Arquitecturas de computadoras",0x0F);
-
-	char time[9];
-	printMsg(1,0,"La hora local es:",0x0F);
+	
 	
 	
 	cli();
@@ -125,11 +122,19 @@ int main()
 	mouse_init();
 	enablePIC();
 	sti();
+
+	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
+
+	char time[9];
+	printMsg(1,0,"La hora local es:",0x0F);
 	//test();
-	unsigned char c = detect_ps2_mouse();
-	c+='0';
-	printChar(6,0,c,0x20);
-	consumeBuffer('\n');
+	// unsigned char c = detect_ps2_mouse();
+	// c+='0';
+	//printChar(6,0,c,0x20);
+	// consumeBuffer('\n');
+	
+	
+
 	
 	while(1);
 	

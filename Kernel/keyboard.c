@@ -1,5 +1,7 @@
 #include <lib.h>
 #include <video.h>
+#include <terminal.h>
+#include <stdio.h>
 #define LEFT_SHIFT_MAKE   	(char)0x2A
 #define RIGHT_SHIFT_MAKE    (char)0x36
 #define CAPS_LOCK           (char)0x3A
@@ -108,121 +110,38 @@ char kbd_EN[][4] = {
 static int counter = 0;
 static int shift=OFF;
 static int caps=OFF;
-static char * bufferConsume;
-static char * bufferPosition;
-static char * bufferStart;
-static int bufferSize;
-static int isEcho;
 
-void keyboardInitializeC(char * Buffer, int size){
-	bufferConsume = Buffer;
-	bufferStart = Buffer;
-	bufferPosition = Buffer+1;
-	bufferSize = size;
-	isEcho = 1;
-}
-
-void echoON(){
-	isEcho = 1;
-}
-
-void echoOF(){
-	isEcho = 0;
-}
-
+//lee del teclado, lo codifica en un char 
+//se lo entrega a la terminal
 void keyboardHandlerC(){
 	
 	char c=inputb(0x60);
-		if(c==CAPS_LOCK){
-			 caps= (caps==ON)? OFF:ON;
-			 return;
-		}
-		if(c== LEFT_SHIFT_MAKE || c== RIGHT_SHIFT_MAKE){
-			shift=ON;
-			return;
-			}
-		if(c== LEFT_SHIFT_BREAK || c== RIGHT_SHIFT_BREAK){
-			shift=OFF;
-			return;
-		}
-		
+	if(c==CAPS_LOCK){
+		caps= (caps==ON)? OFF:ON;
+		return;
+	}
+	if(c== LEFT_SHIFT_MAKE || c== RIGHT_SHIFT_MAKE){
+		shift=ON;
+		return;
+	}
+	if(c== LEFT_SHIFT_BREAK || c== RIGHT_SHIFT_BREAK){
+		shift=OFF;
+		return;
+	}	
 	if(!(c & 0x80))
 	{	
-
-		if(bufferPosition == bufferStart + bufferSize){
-			bufferPosition = bufferStart +1 ;
-		}
-		if(bufferConsume == bufferPosition){
-			putChar('B');
-			return ; //el buffer esta lleno
-		}
-
 		if(caps==ON){
-			*bufferPosition = kbd_EN[(int)c][3];
-			if(isEcho){
-				putChar(*bufferPosition);
-			}
-			bufferPosition++;
-			return;
+			putTerminalBuffer(kbd_EN[(int)c][3]);
 		}
-		if(shift==ON){
-			*bufferPosition = kbd_EN[(int)c][2];
-			if(isEcho){
-				putChar(*bufferPosition);
-			}
-			bufferPosition++;
-			return;
+		else if(shift==ON){
+			putTerminalBuffer(kbd_EN[(int)c][2]);
 		}
-		*bufferPosition = kbd_EN[(int)c][1];
-		if(isEcho){
-			putChar(*bufferPosition);
+		else{
+			putTerminalBuffer(kbd_EN[(int)c][1]);
 		}
-		bufferPosition++;
-
-		//char key = c ;
-		//if(key == 0x0e)
-		//{
-		//	printMsg(3,counter--," ",0);
-		//	return;
-		//}
-
-
-		//if(caps==ON){
-		//	printChar(3,counter+=1,kbd_EN[(int)c][3], 0x20);
-		//	return;
-		//}
-
-		//if(shift==OFF){
-		//	printChar(3,counter+=1,kbd_EN[(int)c][1], 0x20);
-		//	return;
-		//}
-		//printChar(3,counter+=1,kbd_EN[(int)c][2], 0x20);
-
+		return;
 	}
 }
-	
-	void consumeBuffer(char stop){
-		while((*(bufferPosition-1) != stop) && (*(bufferPosition-1) != 't')){
-			;
-		} 
-		while(bufferPosition != bufferConsume){
-			if(bufferConsume == bufferStart + bufferSize){
-				bufferConsume = bufferStart;
-			}
-			putChar(*bufferConsume);
-			bufferConsume++;
-		}
-		bufferPosition++;
-		if(bufferPosition == bufferStart + bufferSize + 1){
-			putChar('g');
-			bufferPosition = bufferStart + 1;
-		}
-	}
 
-
-	void syscall_writeC()
-{
-return;
-}
 			
 	

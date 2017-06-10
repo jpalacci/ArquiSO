@@ -10,7 +10,7 @@
 static char video[HEIGHT][WIDTH];
 static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
-static int j=0;  // posicion del cursor vertical
+static int j=3;  // posicion del cursor vertical
 
 void putChar(char a ) { // se define color estandar
 		printChar(j,i, a ,DEFAULT );

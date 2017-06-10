@@ -6,14 +6,14 @@ EXTERN timerTickHandlerC
 GLOBAL sti
 GLOBAL keyboardHandler
 EXTERN keyboardHandlerC
-GLOBAL syscallHandler
-GLOBAL sys_write
-EXTERN syscall_writeC
 GLOBAL test
 GLOBAL mouse_handler
 EXTERN mouse_handlerC
-GLOBAL keyboardInitialize
-EXTERN keyboardInitializeC
+GLOBAL terminalInitialize
+EXTERN terminalInitializeC
+GLOBAL sys_callHandler
+EXTERN sys_call_writeC
+EXTERN sys_call_readC
 GLOBAL cli
 
 GLOBAL master
@@ -102,16 +102,33 @@ timerTickHandler:
 	sti
 	iretq
 
-syscallHandler:
-      	push rbp
+sys_callHandler:
+	cli
+	push rbp
 	mov rbp, rsp
-        cmp rax,0x04
-        je sys_write
-        mov al, 20h
-        out 20h, al
-        mov rsp,rbp
-        pop rbp
-        iretq
+	cmp eax, 4
+	jne read
+	mov rdi,rbx
+	mov rsi,rcx
+	mov rdx,rdx
+	call sys_call_writeC
+	jp finish
+read:
+	cmp eax,3
+	jne finish
+	mov rdi,rbx
+	mov rsi,rcx
+	mov rdx,rdx
+	call sys_call_readC
+finish:
+	mov rdi,rax
+	mov al, 20h
+	out 20h, al
+	mov rax,rdi	
+	mov rsp, rbp
+	pop rbp
+	sti
+	iretq
 
 master:
 	call spure
@@ -126,20 +143,6 @@ slave:
 	out 0A0h, al
 	out 20h, al
 	ret
-
-	
-sys_write:
-    
-        push rbp
-        mov rbp,rsp
-        mov rdi,  rbx
-        mov rsi, rcx
-        call syscall_writeC
-        mov al, 20h
-        out 20h, al
-        mov rsp,rbp
-        pop rbp
-        iretq
 
 test:
         mov al, 11101111b
@@ -168,17 +171,18 @@ cli:
 	ret
 
 
-keyboardInitialize:
+terminalInitialize:
 	push rbp
 	mov rbp, rsp
 	mov rsi,0;
 	mov rdi, KeyBoardBuffer
 	mov rsi,0
 	mov rsi,100
-	call keyboardInitializeC
+	call terminalInitializeC
 	mov rsp, rbp
 	pop rbp
 	ret
+
 
 section .data
 

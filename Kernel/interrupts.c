@@ -55,10 +55,9 @@ void loadIDT()
 	setIDTEntry((uint64_t) master,0x2E);
 	
 	
-	setIDTEntry((uint64_t) syscallHandler,0x80); 
+	setIDTEntry((uint64_t) sys_callHandler,0x80); 
 	setIDTEntry((uint64_t) keyboardHandler,0x21);
 	setIDTEntry((uint64_t) mouse_handler,0x2C); 
-	setIDTEntry((uint64_t) syscallHandler,0x80); 
 	
 	//sti();
 	

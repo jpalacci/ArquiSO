@@ -15,11 +15,11 @@ uint8_t inputb(uint16_t portid);
 void timerTick();
 void sti();
 void keyboardHandler();
-void syscallHandler();
+void sys_callHandler();
 void sys_write();
 void test();
 
-void keyboardInitialize();
+void terminalInitialize();
 void cli();
 
 void master();

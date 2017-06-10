@@ -116,7 +116,7 @@ int main()
 	
 	
 	cli();
-	keyboardInitialize();
+	terminalInitialize();
 	
 	loadIDT();
 	mouse_init();
@@ -132,7 +132,7 @@ int main()
 	// c+='0';
 	//printChar(6,0,c,0x20);
 	// consumeBuffer('\n');
-	
+	shell();
 	
 
 	

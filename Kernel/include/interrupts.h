@@ -7,4 +7,5 @@ void sti();
 void keyboardHandlerC();
 void keyboardHandler();
 void registrer_Mouse();
+void sys_callHandler();
 void spure();

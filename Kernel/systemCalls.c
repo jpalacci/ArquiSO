@@ -1,6 +1,5 @@
 
 #include <stdint.h>
-
 #include <terminal.h>
 #include <video.h>
 //escribe en el file descriptor que le pasen.
@@ -8,7 +7,12 @@
 void sys_call_writeC(uint32_t stdout, char * msg, uint32_t length){
 	if(stdout == 0){
 		while(length != 0){
-			putChar(*msg);
+			if(*msg == '\n'){
+				lineJump();
+			}
+			else{
+				putChar(*msg);
+			}
 			msg++;
 			length--;	
 		}
@@ -24,4 +28,12 @@ uint32_t sys_call_readC(uint32_t stdin, char * buffer, uint32_t length){
 	}
 	//no leyo nada
 	return 0;
+}
+
+void sys_call_clearC(){
+	int i;
+	for(i=25; i>2;i--){
+		clearRow(i);
+	}
+	setCursor(3,0);
 }

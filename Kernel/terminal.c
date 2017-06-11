@@ -33,7 +33,6 @@ void terminalInitializeC(char * Buffer, int size){
 //esta lleno lo ignora
 void putTerminalBuffer(char c){
 
-	static int startPosition = 50;
 	if(bufferPosition == bufferStart + bufferSize){
 			bufferPosition = bufferStart;
 		}
@@ -45,13 +44,20 @@ void putTerminalBuffer(char c){
 	}
 	*bufferPosition = c;
 	if(c == '\b'){
+		backwardCursor();
 		putChar(' ');
-		bufferPosition--;
+		backwardCursor();
+		bufferPosition-=2;
+	}
+	else if(c == '\n'){
+		lineJump();
+		bufferPosition-=2;
 	}
 	else if(isEcho){
 		putChar(*bufferPosition);
-		bufferPosition++;
+		
 	}
+	bufferPosition++;
 	
 }
 

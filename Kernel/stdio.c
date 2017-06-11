@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdioASM.h>
-#include <video.h>
 #define LETTER  0
 #define FORMAT  1
 #define NULL 0
@@ -158,4 +157,34 @@ void scanFF(const char * format, char ** s, int * n){
 	return;
 
 }
+
+void * malloc(int bytes){
+	static void * position = 0x70000;
+	void * aux = position;
+	position+=bytes;
+	return aux;
+}
+
+int strcmp(char * str1, char * str2){
+	while((*str1 != 0) && (*str2 != 0)){
+		if((*str1 - *str2) > 0){
+			return 1;
+		}
+		if((*str1 - *str2) < 0){
+			return -1;
+		}
+		str1++;
+		str2++;
+	}
+	if(*str1 == 0 && *str2 == 0){
+		return 0;
+	}
+	if(*str1 == 0){
+		return -1;
+	}
+	return 1;
+}
+
+
+
 

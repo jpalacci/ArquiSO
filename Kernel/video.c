@@ -87,6 +87,7 @@ void forwardCursor(){
 	}
 
 }
+
 void forwardCursorB(){
 
 	if(i==WIDTH-1){

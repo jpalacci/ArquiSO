@@ -14,6 +14,7 @@ EXTERN terminalInitializeC
 GLOBAL sys_callHandler
 EXTERN sys_call_writeC
 EXTERN sys_call_readC
+EXTERN sys_call_clearC
 GLOBAL cli
 
 GLOBAL master
@@ -115,11 +116,15 @@ sys_callHandler:
 	jp finish
 read:
 	cmp eax,3
-	jne finish
+	jne clear
 	mov rdi,rbx
 	mov rsi,rcx
 	mov rdx,rdx
 	call sys_call_readC
+clear:
+	cmp eax,5
+	jne finish
+	call sys_call_clearC
 finish:
 	mov rdi,rax
 	mov al, 20h

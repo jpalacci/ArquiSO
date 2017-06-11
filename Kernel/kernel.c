@@ -132,15 +132,7 @@ int main()
 	// c+='0';
 	//printChar(6,0,c,0x20);
 	// consumeBuffer('\n');
-	while(1){
-	char ** ss = 6500000;
-	char * sos = 7000000;
-	ss[0] = sos;
-	scanFF("%s",ss, NULL);
-	putchar('\n');
-	printFF("%s",ss,NULL);
-	}
-	
+	shell();
 
 	
 	while(1);

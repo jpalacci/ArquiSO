@@ -108,12 +108,13 @@ int main()
 	ncPrint("  Sample data module contents: ");
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
-
+	ncPrintHex((uint64_t) endOfKernelBinary);
+	ncPrintHex((uint64_t) *(&endOfKernelBinary+4));
 	ncPrint("[Finished]");
 	
 	clear();
 	
-	
+	  
 	
 	cli();
 	terminalInitialize();
@@ -127,13 +128,8 @@ int main()
 
 	char time[9];
 	printMsg(1,0,"La hora local es:",0x0F);
-	//test();
-	// unsigned char c = detect_ps2_mouse();
-	// c+='0';
-	//printChar(6,0,c,0x20);
-	// consumeBuffer('\n');
+	
 	shell();
-
 	
 	while(1);
 	

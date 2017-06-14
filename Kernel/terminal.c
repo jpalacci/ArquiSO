@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <video.h>
+#include <lib.h>
 
 static char * bufferConsume;
 static char * bufferPosition;
@@ -32,7 +33,7 @@ void terminalInitializeC(char * Buffer, int size){
 //pone el char que le pasan en el buffer, si este
 //esta lleno lo ignora
 void putTerminalBuffer(char c){
-
+	sti();
 	if(bufferPosition == bufferStart + bufferSize){
 			bufferPosition = bufferStart;
 		}
@@ -51,17 +52,19 @@ void putTerminalBuffer(char c){
 	}
 	else if(c == '\n'){
 		lineJump();
-		bufferPosition-=2;
+		
 	}
 	else if(isEcho){
 		putChar(*bufferPosition);
 		
 	}
 	bufferPosition++;
+	cli();
 	
 }
 
 int getTerminalBuffer(char * buffer, uint32_t length){
+	sti();
 	int charsConsume = 0;
 	while(length != 0){
 			if(bufferConsume == bufferPosition){
@@ -76,6 +79,7 @@ int getTerminalBuffer(char * buffer, uint32_t length){
 				bufferConsume = bufferStart;
 			}
 		}
+	cli();
 	return charsConsume;
 }
 

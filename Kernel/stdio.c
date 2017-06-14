@@ -107,6 +107,7 @@ void printFF(const char * format, char ** s, int * n){
 
 void scanFF(const char * format, char ** s, int * n){
  int state = LETTER;
+ int indexS = 0;
  while(*format != 0){
  	switch(state){
 
@@ -137,8 +138,8 @@ void scanFF(const char * format, char ** s, int * n){
 			}
 			if(*format == 's'){
 				if(s != NULL){
-				char * string = s[0];
-				s++;
+				char * string = s[indexS];
+				indexS++;
 				char c;
 				while((c = getchar()) != '\n'){
 					*string = c;

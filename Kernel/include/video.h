@@ -12,6 +12,7 @@ void forwardCursorB();
 void scroll();
 void backwardCursor();
 int validPosition(int f, int c);
+void lineJump();
 void printMsgCursor( char * msg);
 void clearPosition(int f, int c);
 void clearRow(int f);

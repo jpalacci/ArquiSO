@@ -24,6 +24,9 @@ static const uint64_t PageSize = 0x1000;
 static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
 static void * const dummyAddress = (void*)0x600000;
+static void * const shellAddress = (void*)0x900000;
+static void * const currentAddress = (void*)0x700000;
+
 
 
 typedef int (*EntryPoint)();
@@ -60,7 +63,7 @@ void * initializeKernelBinary()
 	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
-		sampleDataModuleAddress, dummyAddress
+		sampleDataModuleAddress, dummyAddress, shellAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
@@ -131,8 +134,11 @@ int main()
 	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
 	char time[9];
 	printMsg(1,0,"La hora local es:",0x0F);
+
+	//memcpy((void*)0x700000, dummyAddress, 0x10000);
+
 	 
-	shell();
+	((EntryPoint)currentAddress)();
 	
 	while(1);
 	

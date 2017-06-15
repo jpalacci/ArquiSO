@@ -12,6 +12,20 @@ static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
 static int j=3;  // posicion del cursor vertical
 
+//static int timeCount=0;
+
+// void showCursor(){
+// 	int h= j*WIDTH+ i;
+// 	if(timeCount%20 == 0){
+// 		attributes[h/WIDTH][h%WIDTH]=(char) 0x11;
+// 	}
+// 	if(timeCount%40== 0){
+// 	attributes[h/WIDTH][h%WIDTH]=(char) DEFAULT;	
+// 	}
+	
+// 	timeCount++;
+
+// }
 void putChar(char a ) { // se define color estandar
 		printChar(j,i, a ,DEFAULT );
 		forwardCursor();
@@ -100,11 +114,16 @@ void forwardCursorB(){
 }
 
 void lineJump(){
-	int aux= j +1;
-	while(j!=aux){
+	if(j==HEIGHT-1) {
+			scroll();
+	} else{
+		int aux= j +1;
+		while(j!=aux){
 		forwardCursor();
 	}
 }
+}
+
 
 void scroll(){
 	int auxf;

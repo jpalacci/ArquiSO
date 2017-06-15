@@ -2,8 +2,8 @@
 
 int main(){
 
-char * buffer = "Hola";
-writeC(buffer,4);
+char * buffer = "soy DUmmy";
+writeC(buffer,9);
 return 0;
 
 }

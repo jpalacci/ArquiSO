@@ -1,5 +1,5 @@
-#include<video.h>
-#include<lib.h>
+#include <video.h>
+#include <lib.h>
 #include <interrupts.h>
 #include <rtc.h>
 #include <keyboard.h>

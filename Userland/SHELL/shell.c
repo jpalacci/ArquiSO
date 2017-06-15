@@ -1,8 +1,7 @@
 
 
-#include <stdio.h>
-#include <shell.h>
-#include <string.h>
+#include "stdio.h"
+#include "shell.h"
 
 void helpShell(){
 	char ** s = 600000;
@@ -47,7 +46,7 @@ void printShellComand(){
 	s[0] = str;
 	printFF("%s",s,NULL);
 }
-int shell(){
+int main(){
 	char ** ss = 6500000;
 	char * sos = 7000000;
 	ss[0] = sos;

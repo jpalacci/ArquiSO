@@ -40,10 +40,11 @@ void putTerminalBuffer(char c){
 	//del Kernel asi que si es al revez es Por que hay OverFLow e ignoro las que
 	//vienen
 	if(bufferConsume == (bufferPosition+1) ){
-		putChar('B');
+		sti();
 		return ; //el buffer esta lleno
 	}
 	if(bufferConsume == (bufferStart+bufferSize) && bufferPosition == bufferStart){
+		sti();
 		return;
 	} 
 	*bufferPosition = c;
@@ -75,12 +76,12 @@ int getTerminalBuffer(char * buffer, uint32_t length){
 	int charsConsume = 0;
 	while(length != 0){
 			if(bufferConsume == bufferPosition){
+				sti();
 				return charsConsume;
 			}
 			if(bufferConsume == bufferStart + bufferSize){
 				bufferConsume = bufferStart;
 			}
-			putChar('c');
 			*buffer = *bufferConsume;
 			buffer++;
 			charsConsume++;

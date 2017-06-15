@@ -6,3 +6,4 @@ char getChar();
 void printFF(const char * format, char ** s, int * n);
 void putNumber(int n);
 void * malloc(int index);
+void scanFF(const char * format, char ** s, int * n);

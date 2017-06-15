@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdioASM.h>
+#include "stdio.h"
+#include "stdioASM.h"
 #define LETTER  0
 #define FORMAT  1
 #define NULL 0

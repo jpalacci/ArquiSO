@@ -2,8 +2,9 @@ include Makefile.inc
 
 SAMPLE_DATA=0001-sampleDataModule.bin
 
-all: sampleCodeModule sampleDataModule
-
+all: dummy sampleCodeModule sampleDataModule 
+dummy:
+	cd dummy; make
 sampleCodeModule:
 	cd SampleCodeModule; make
 
@@ -12,7 +13,8 @@ sampleDataModule:
 
 clean:
 	cd SampleCodeModule; make clean
+	cd dummy; make clean
 	rm -rf *.bin
 
 
-.PHONY: sampleCodeModule all clean
+.PHONY: dummy SampleCodeModule all clean

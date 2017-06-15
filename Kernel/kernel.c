@@ -121,21 +121,17 @@ int main()
 	
 	clear();
 	
-	  
 	
 	cli();
 	terminalInitialize();
-	
 	loadIDT();
 	mouse_init();
 	enablePIC();
 	sti();
-
 	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
-
 	char time[9];
 	printMsg(1,0,"La hora local es:",0x0F);
-	
+	 
 	shell();
 	
 	while(1);

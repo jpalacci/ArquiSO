@@ -17,6 +17,7 @@ EXTERN sys_call_readC
 EXTERN sys_call_clearC
 EXTERN sys_call_echoC
 GLOBAL cli
+GLOBAL updateCR3
 
 GLOBAL master
 GLOBAL slave
@@ -24,6 +25,13 @@ GLOBAL slave
 EXTERN spure
 
 section .text
+
+
+updateCR3:
+
+	mov rax, cr3
+	mov cr3, rax
+	ret
 	
 cpuVendor:
 	push rbp

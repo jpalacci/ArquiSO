@@ -23,9 +23,9 @@ static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
-static void * const dummyAddress = (void*)0x600000;
-static void * const shellAddress = (void*)0x900000;
-static void * const currentAddress = (void*)0x700000;
+static void * const dummyAddress = (void*)0xA00000;
+static void * const shellAddress = (void*)0xC00000;
+static void * const currentAddress = (void*)0x800000;
 
 
 
@@ -96,28 +96,37 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+void mapModulesLogical(uint64_t  physical ){
+		uint64_t * PDbase= (uint64_t*) 0x10000;
+		uint64_t * userEntry= PDbase + 4;
+		*userEntry= physical | 0x8B ;// + 0x8F;
+		return;
+
+}
+
+
 int main()
 {	
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
+	// ncPrint("[Kernel Main]");
+	// ncNewline();
+	// ncPrint("  Sample code module at 0x");
+	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
+	// ncNewline();
+	// ncPrint("  Calling the sample code module returned: ");
+	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
+	// ncNewline();
 	
-	ncNewline();
+	// ncNewline();
 
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
-	ncPrintHex((uint64_t) endOfKernelBinary);
-	ncPrintHex((uint64_t) *(&endOfKernelBinary+4));
-	ncPrint("[Finished]");
+	// ncPrint("  Sample data module at 0x");
+	// ncPrintHex((uint64_t)sampleDataModuleAddress);
+	// ncNewline();
+	// ncPrint("  Sample data module contents: ");
+	// ncPrint((char*)sampleDataModuleAddress);
+	// ncNewline();
+	// ncPrintHex((uint64_t) endOfKernelBinary);
+	// ncPrintHex((uint64_t) *(&endOfKernelBinary+4));
+	// ncPrint("[Finished]");
 
 
 	
@@ -130,14 +139,20 @@ int main()
 	loadIDT();
 	mouse_init();
 	enablePIC();
+
 	sti();
-	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
-	char time[9];
-	printMsg(1,0,"La hora local es:",0x0F);
+	//printMsg(0,0,"Arquitecturas de computadoras",0x0F);
+	//char time[9];
+	//printMsg(1,0,"La hora local es:",0x0F);
 
 	//memcpy((void*)0x700000, dummyAddress, 0x10000);
 
-	 
+
+	clear();
+
+	 mapModulesLogical(0xC00000);
+	 updateCR3();
+
 	((EntryPoint)currentAddress)();
 	
 	while(1);

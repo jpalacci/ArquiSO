@@ -55,3 +55,4 @@ void intToString(int n, char*buffer, int digits)
 	*(buffer+1)=(n%10)+'0';
 	*(buffer+2)=0;
 }
+

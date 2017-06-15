@@ -142,8 +142,13 @@ void scanFF(const char * format, char ** s, int * n){
 				indexS++;
 				char c;
 				while((c = getchar()) != '\n'){
-					*string = c;
-					string++;	
+					if(c == '\b'){
+						string--;
+					}
+					else{
+						*string = c;
+						string++;
+					}	
 				}
 				*string = 0;
 				state = LETTER;

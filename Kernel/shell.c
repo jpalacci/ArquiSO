@@ -14,11 +14,16 @@ void helpShell(){
 }
 
 void run(char * c){
-	putchar('C');
 	if(strcmp("editor", c)){
-		putchar('V');
 		editor();
 	}
+}
+
+void echoShellON(){
+	sys_call(6,0,1);
+}
+void echoShellOF(){
+	sys_call(6,0,0);
 }
 
 void error(){
@@ -49,6 +54,7 @@ int shell(){
 	while(1){
 		printShellComand();
 		scanFF("%s",ss, NULL);
+		printFF("%s",ss,NULL);
 		parser(sos);
 	}
 	
@@ -63,8 +69,19 @@ void parser(char * buffer){
 		clearShell();
 		return;
 	}
+	if(!strcmp("echoON", buffer)){
+		echoShellON();
+		return;
+	}
+	if(!strcmp("echoOF", buffer)){
+		echoShellOF();
+		return;
+	}
 	if(*buffer == '.' && *(buffer+1) == '\\'){
 		run((buffer+2));
+		return;
+	}
+	if(*buffer == '\n'){
 		return;
 	}
 	error();

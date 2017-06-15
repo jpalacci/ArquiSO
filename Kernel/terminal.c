@@ -33,12 +33,12 @@ void terminalInitializeC(char * Buffer, int size){
 //pone el char que le pasan en el buffer, si este
 //esta lleno lo ignora
 void putTerminalBuffer(char c){
-	sti();
+	cli();
 	if(bufferPosition == bufferStart + bufferSize){
 			bufferPosition = bufferStart;
 		}
 	//bufferConsume nunca alcanza a bufferPosition por las implementaciones
-	//del Kernel asi que si es al revez es POr que hay OverFLow e ignoro las que
+	//del Kernel asi que si es al revez es Por que hay OverFLow e ignoro las que
 	//vienen
 	if(bufferConsume == bufferPosition+1){
 		return ; //el buffer esta lleno
@@ -48,7 +48,6 @@ void putTerminalBuffer(char c){
 		backwardCursor();
 		putChar(' ');
 		backwardCursor();
-		bufferPosition-=2;
 	}
 	else if(c == '\n'){
 		lineJump();
@@ -59,12 +58,12 @@ void putTerminalBuffer(char c){
 		
 	}
 	bufferPosition++;
-	cli();
+	sti();
 	
 }
 
 int getTerminalBuffer(char * buffer, uint32_t length){
-	sti();
+	cli();
 	int charsConsume = 0;
 	while(length != 0){
 			if(bufferConsume == bufferPosition){
@@ -79,7 +78,7 @@ int getTerminalBuffer(char * buffer, uint32_t length){
 				bufferConsume = bufferStart;
 			}
 		}
-	cli();
+	sti();
 	return charsConsume;
 }
 

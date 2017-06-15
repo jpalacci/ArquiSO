@@ -37,3 +37,13 @@ void sys_call_clearC(){
 	}
 	setCursor(3,0);
 }
+
+void sys_call_echoC(int on){
+	if(on){
+		echoON();
+		return;
+	}
+	echoOF();
+	return;
+
+}

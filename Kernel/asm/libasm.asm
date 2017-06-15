@@ -15,6 +15,7 @@ GLOBAL sys_callHandler
 EXTERN sys_call_writeC
 EXTERN sys_call_readC
 EXTERN sys_call_clearC
+EXTERN sys_call_echoC
 GLOBAL cli
 
 GLOBAL master
@@ -123,8 +124,13 @@ read:
 	call sys_call_readC
 clear:
 	cmp eax,5
-	jne finish
+	jne echo
 	call sys_call_clearC
+echo:
+	cmp eax,6
+	jne finish
+	mov rdi,rbx
+	call sys_call_echoC
 finish:
 	mov rdi,rax
 	mov al, 20h

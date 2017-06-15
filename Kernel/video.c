@@ -39,16 +39,13 @@ int getScreen(int f, int c){
 
 void selection(int finit, int cinit, int ffin, int cfin){
  
-	int auxi=i;
-	int auxj=j;	
-	setCursor(finit, cinit);
-	while(validPosition(j,i) && (j<ffin || ((j==ffin) && (i<=cfin)) ) ){
+	int i= finit*WIDTH+ cinit;
+	int fin= ffin*WIDTH+cfin;
+	while(validPosition(i/WIDTH,i%WIDTH) && i<=fin ){
 		
-		drawMouse(j,i);
-		forwardCursorB();
+		drawMouse(i/WIDTH,i%WIDTH);
+		i++;
 	}
-	setCursor(auxj, auxi);
-
 }
 
 void changeColor(int f, int c, char color){
@@ -61,14 +58,13 @@ void changeColor(int f, int c, char color){
 }
 
 void undoSelection(int finit, int cinit, int ffin, int cfin){
-	int auxi=i;
-	int auxj=j;	
-	setCursor(finit, cinit);
-	while(j<ffin || ((j==ffin) && (i<=cfin)) ){
-		udrawMouse(j,i);
-		forwardCursor();
+	int i= finit*WIDTH+ cinit;
+	int fin= ffin*WIDTH+cfin;
+	while(validPosition(i/WIDTH,i%WIDTH) && i<=fin ){
+		
+		udrawMouse(i/WIDTH,i%WIDTH);
+		i++;
 	}
-	setCursor(auxj, auxi);
 
 }
 
@@ -169,23 +165,20 @@ void udrawMouse(int f, int c){
 }
 
 int validPosition(int f, int c){
-	return (f>=HEIGHT || c>=WIDTH)? 0:1;
+	return (f>=HEIGHT || c>=WIDTH || f<0 || c<0)? 0:1;
 }
 
 void printMsg(int f, int c,  char*msg, char color)
 {	
 	if(!validPosition(f,c)) return;
-	int previ=i;
-	int prevj=j; //recuerdo posiciones del mouse
-	i=c;
-	j=f;
+	int i = f*WIDTH + c;
 	while(*msg)
 	{
-		putChar(*msg);
+		if(!validPosition(i/WIDTH,i%WIDTH)) return; // el mesaje excede el tamaño . Scroll no permitido
+		printChar(i/WIDTH, i%WIDTH,*msg, 0x20);
 		msg++;
+		i++;
 	}
-	i=previ;
-	j=prevj;
 }
 void printMsgCursor( char * msg) // cursor position, default color
 {

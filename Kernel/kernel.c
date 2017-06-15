@@ -23,6 +23,8 @@ static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
+static void * const dummyAddress = (void*)0x600000;
+
 
 typedef int (*EntryPoint)();
 
@@ -58,7 +60,7 @@ void * initializeKernelBinary()
 	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
-		sampleDataModuleAddress
+		sampleDataModuleAddress, dummyAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
@@ -68,6 +70,7 @@ void * initializeKernelBinary()
 
 	ncPrint("[Initializing kernel's binary]");
 	ncNewline();
+	ncPrintHex((uint64_t) endOfKernelBinary);
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
@@ -100,6 +103,7 @@ int main()
 	ncPrint("  Calling the sample code module returned: ");
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
 	ncNewline();
+	
 	ncNewline();
 
 	ncPrint("  Sample data module at 0x");
@@ -110,6 +114,9 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
+
+
+	
 	
 	clear();
 	
@@ -132,7 +139,9 @@ int main()
 	// c+='0';
 	//printChar(6,0,c,0x20);
 	// consumeBuffer('\n');
-	shell();
+	//shell();
+
+	((EntryPoint)dummyAddress)();
 
 	
 	while(1);

@@ -14,7 +14,9 @@ void helpShell(){
 }
 
 void run(char * c){
+	putchar('C');
 	if(strcmp("editor", c)){
+		putchar('V');
 		editor();
 	}
 }
@@ -47,9 +49,7 @@ int shell(){
 	while(1){
 		printShellComand();
 		scanFF("%s",ss, NULL);
-		sos++;
 		parser(sos);
-		sos--;
 	}
 	
 }

@@ -16,8 +16,11 @@ EXTERN sys_call_writeC
 EXTERN sys_call_readC
 EXTERN sys_call_clearC
 EXTERN sys_call_echoC
+EXTERN sys_call_runC
 GLOBAL cli
 GLOBAL updateCR3
+GLOBAL pageFaultHandler
+EXTERN pageFaultHandlerC
 
 GLOBAL master
 GLOBAL slave
@@ -112,23 +115,30 @@ timerTickHandler:
 	sti
 	iretq
 
+pageFaultHandler:
+	cli
+	push rbp
+	mov rbp, rsp
+	call pageFaultHandlerC
+	mov rsp, rbp
+	pop rbp
+	sti
+	iretq
+
 sys_callHandler:
 	cli
 	push rbp
 	mov rbp, rsp
 	cmp eax, 4
-	jne read
 	mov rdi,rbx
 	mov rsi,rcx
 	mov rdx,rdx
+	jne read
 	call sys_call_writeC
 	jp finish
 read:
 	cmp eax,3
 	jne clear
-	mov rdi,rbx
-	mov rsi,rcx
-	mov rdx,rdx
 	call sys_call_readC
 clear:
 	cmp eax,5
@@ -136,9 +146,14 @@ clear:
 	call sys_call_clearC
 echo:
 	cmp eax,6
-	jne finish
-	mov rdi,rbx
+	jne run
+	mov rdi,rcx
 	call sys_call_echoC
+run:
+	cmp eax, 7
+	jne finish
+	mov rdi,rcx
+	call sys_call_runC
 finish:
 	mov rdi,rax
 	mov al, 20h
@@ -196,7 +211,7 @@ terminalInitialize:
 	mov rsi,0;
 	mov rdi, KeyBoardBuffer
 	mov rsi,0
-	mov rsi,100
+	mov rsi,10
 	call terminalInitializeC
 	mov rsp, rbp
 	pop rbp
@@ -208,7 +223,7 @@ section .data
 msg db "hola mundo",0
 
 section .bss
-KeyBoardBuffer resb 100
+KeyBoardBuffer resb 10
 
 
 

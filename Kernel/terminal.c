@@ -13,6 +13,15 @@ static char * bufferStart;
 static int bufferSize;
 static int isEcho;
 
+int isBufferFull(){
+	return ((bufferConsume == (bufferPosition+1)) || 
+	(bufferConsume == (bufferStart+bufferSize) && (bufferPosition == bufferStart)));
+}
+int isBufferEmpty(){
+	return bufferConsume == bufferPosition;
+}
+
+
 void echoON(){
 	isEcho = 1;
 }
@@ -29,24 +38,22 @@ void terminalInitializeC(char * Buffer, int size){
 	bufferPosition = Buffer;
 	bufferSize = size;
 	isEcho = 1;
+
 }
 
 //pone el char que le pasan en el buffer, si este
 //esta lleno lo ignora
 void putTerminalBuffer(char c){
-	cli();
+
 	
 	//bufferConsume nunca alcanza a bufferPosition por las implementaciones
 	//del Kernel asi que si es al revez es Por que hay OverFLow e ignoro las que
 	//vienen
-	if(bufferConsume == (bufferPosition+1) ){
+	if(isBufferFull()){
 		sti();
 		return ; //el buffer esta lleno
 	}
-	if(bufferConsume == (bufferStart+bufferSize) && bufferPosition == bufferStart){
-		sti();
-		return;
-	} 
+	cli();
 	*bufferPosition = c;
 	if(c == '\b'){
 		backwardCursor();
@@ -65,8 +72,6 @@ void putTerminalBuffer(char c){
 	if(bufferPosition == (bufferStart + bufferSize)){
 			bufferPosition = bufferStart;
 		}
-	ncPrintHex(bufferPosition);
-	ncPrintHex(bufferConsume);
 	sti();
 	
 }
@@ -75,18 +80,18 @@ int getTerminalBuffer(char * buffer, uint32_t length){
 	cli();
 	int charsConsume = 0;
 	while(length != 0){
-			if(bufferConsume == bufferPosition){
+			if(isBufferEmpty()){
 				sti();
 				return charsConsume;
-			}
-			if(bufferConsume == bufferStart + bufferSize){
-				bufferConsume = bufferStart;
 			}
 			*buffer = *bufferConsume;
 			buffer++;
 			charsConsume++;
 			bufferConsume++;
-			length--;	
+			length--;
+			if(bufferConsume == bufferStart + bufferSize){
+				bufferConsume = bufferStart;
+			}	
 		}
 	sti();
 	return charsConsume;

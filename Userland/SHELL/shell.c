@@ -13,9 +13,7 @@ void helpShell(){
 }
 
 void run(char * c){
-	if(strcmp("editor", c)){
-		editor();
-	}
+		sys_call(7,0,1);
 }
 
 void echoShellON(){

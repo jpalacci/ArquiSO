@@ -141,14 +141,11 @@ int main()
 	enablePIC();
 
 	sti();
-	//printMsg(0,0,"Arquitecturas de computadoras",0x0F);
-	//char time[9];
-	//printMsg(1,0,"La hora local es:",0x0F);
+	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
+	char time[9];
+	printMsg(1,0,"La hora local es:",0x0F);
 
 	//memcpy((void*)0x700000, dummyAddress, 0x10000);
-
-
-	clear();
 
 	 mapModulesLogical(0xC00000);
 	 updateCR3();

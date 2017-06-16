@@ -18,7 +18,7 @@ void keyboardHandler();
 void sys_callHandler();
 void sys_write();
 void test();
-
+void pageFaultHandler();
 void terminalInitialize();
 void cli();
 

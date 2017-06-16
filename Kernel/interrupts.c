@@ -54,7 +54,7 @@ void loadIDT()
 	setIDTEntry((uint64_t) master,0x2D); 
 	setIDTEntry((uint64_t) master,0x2E);
 	
-	
+	setIDTEntry((uint64_t) pageFaultHandler,0x0E); 
 	setIDTEntry((uint64_t) sys_callHandler,0x80); 
 	setIDTEntry((uint64_t) keyboardHandler,0x21);
 	setIDTEntry((uint64_t) mouse_handler,0x2C); 
@@ -93,6 +93,10 @@ void timerTickHandlerC()
 	char time[9];
 	getTime(time);	
 	printMsg(2,0,time,0x20);
+}
+
+void pageFaultHandlerC(){
+	printMsg(9,0,"Segmentation Fault",0x20);
 }
 
 

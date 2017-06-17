@@ -6,4 +6,5 @@ char getChar();
 void printFF(const char * format, char ** s, int * n);
 void putNumber(int n);
 void * malloc(int index);
-void scanFF(const char * format, char ** s, int * n);
+int scanFF(const char * format, char ** s, int * n);
+int strcmpN(char * str1, char * str2,int number);

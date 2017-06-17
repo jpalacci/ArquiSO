@@ -7,6 +7,8 @@
 #include <naiveConsole.h>
 
 void io_wait();
+static void * const shellAddress = (void*)0xC00000;
+static void * const currentAddress = (void*)0x800000;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -19,6 +21,8 @@ typedef struct IDT_Entry {
 	uint32_t offset_h; //32..63
 	uint32_t zero_h;
 }IDT_Entry;
+
+typedef int (*EntryPoint)();
 
 #pragma pack(pop)
 
@@ -54,7 +58,7 @@ void loadIDT()
 	setIDTEntry((uint64_t) master,0x2D); 
 	setIDTEntry((uint64_t) master,0x2E);
 	
-	setIDTEntry((uint64_t) pageFaultHandler,0x0E); 
+	setIDTEntry((uint64_t) pageFaultHandler,0x0D); 
 	setIDTEntry((uint64_t) sys_callHandler,0x80); 
 	setIDTEntry((uint64_t) keyboardHandler,0x21);
 	setIDTEntry((uint64_t) mouse_handler,0x2C); 
@@ -96,7 +100,14 @@ void timerTickHandlerC()
 }
 
 void pageFaultHandlerC(){
-	printMsg(9,0,"Segmentation Fault",0x20);
+	int i;
+	for(i=25; i>2;i--){
+		clearRow(i);
+	}
+	setCursor(3,0);
+	mapModulesLogical(shellAddress);
+	updateCR3();
+	((EntryPoint)currentAddress)();
 }
 
 

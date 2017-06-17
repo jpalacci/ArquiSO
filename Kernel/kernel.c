@@ -99,7 +99,7 @@ void * initializeKernelBinary()
 void mapModulesLogical(uint64_t  physical ){
 		uint64_t * PDbase= (uint64_t*) 0x10000;
 		uint64_t * userEntry= PDbase + 4;
-		*userEntry= physical | 0x8B ;// + 0x8F;
+		*userEntry= physical + 0x8F;// + 0x8B;
 		return;
 
 }
@@ -146,10 +146,9 @@ int main()
 	printMsg(1,0,"La hora local es:",0x0F);
 
 	//memcpy((void*)0x700000, dummyAddress, 0x10000);
-
 	 mapModulesLogical(0xC00000);
 	 updateCR3();
-
+	 resetBuffer();
 	((EntryPoint)currentAddress)();
 	
 	while(1);

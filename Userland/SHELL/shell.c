@@ -4,7 +4,7 @@
 #include "shell.h"
 
 void helpShell(){
-	char ** s = 600000;
+	char ** s = malloc(sizeof(char *));
 	char * help = "Help\n the commands are clear, help, echo, ls and man\n write man \"comand\" for more information";
 	s[0]= help;
 	printFF("%s",s, NULL);
@@ -12,14 +12,14 @@ void helpShell(){
 	
 }
 void ls(){
-	char ** s = 600000;
+	char ** s = malloc(sizeof(char *));
 	char * ls = "Modules: dummy, editor, shell, fortune";
 	s[0]= ls;
 	printFF("%s",s, NULL);
 	putchar('\n');
 }
 void man(char * buffer){
-	char ** s = 600000;
+	char ** s = malloc(sizeof(char *));
 	char * man;
 	if(!strcmp("help", buffer)){
 		man = "HELP\n use this comand to see all the comands";
@@ -60,7 +60,7 @@ void echoShellOFF(){
 }
 
 void error(char * buffer){
-	char ** s = 600000;
+	char ** s = malloc(sizeof(char *));
 	s[0] = buffer;
 	printFF("%s", s, NULL);
 	putchar(':');
@@ -76,7 +76,7 @@ void clearShell(){
 }
 
 void errorParser(int error){
-	char ** s = 5000000;
+	char ** s = malloc(sizeof(char *));
 	char * str;
 	if(error == 1){
 	str = "General Protection";
@@ -95,14 +95,14 @@ void errorParser(int error){
 //shell
 
 void printShellComand(){
-	char ** s = 5000000;
+	char ** s = malloc(sizeof(char *));
 	char * str = "shell>";
 	s[0] = str;
 	printFF("%s",s,NULL);
 }
 int main(int error){
-	char ** ss = 6500000;
-	char * sos = 7000000;
+	char ** ss = malloc(sizeof(char *));
+	char * sos = malloc(100);
 	ss[0] = sos;
 	putNumber(error);
 	while(1){

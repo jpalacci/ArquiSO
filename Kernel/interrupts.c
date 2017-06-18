@@ -120,7 +120,7 @@ void pageFaultHandlerC(){
 	setCursor(3,0);
 	mapModulesLogical(shellAddress);
 	updateCR3();
-	(*(EntryPointS)currentAddress)(2);
+	(*(EntryPointS)currentAddress)(4);
 }
 
 

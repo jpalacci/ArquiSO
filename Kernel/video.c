@@ -12,6 +12,7 @@ static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
 static int j=3;  // posicion del cursor vertical
 
+
 //static int timeCount=0;
 
 // void showCursor(){

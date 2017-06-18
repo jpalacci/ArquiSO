@@ -8,7 +8,7 @@
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
 static void * const currentAddress = (void*)0x800000;
-static void * const editorAddress = (void*)0xB00000;
+static void * const editorAddress = (void*)0xD00000;
 typedef int (*EntryPoint)();
 
 void mapModulesLogical(uint64_t  physical );
@@ -49,9 +49,7 @@ void sys_call_clearC(){
 }
 
 void sys_call_echoC(int on){
-	putChar('c');
 	if(on){
-		putChar('f');
 		echoON();
 		return;
 	}

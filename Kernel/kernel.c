@@ -25,7 +25,7 @@ static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
-static void * const editorAddress = (void*)0x700000;
+static void * const editorAddress = (void*)0xD00000;
 static void * const currentAddress = (void*)0x800000;
 
 

@@ -8,7 +8,7 @@ void clearEditor(){
 
 void main(){
 	clearEditor();
-	char ** s = 600000;
+	char ** s = malloc(sizeof(char **));
 	char * editor = "chomp\n";
 	s[0]= editor;
 	printFF("%s",s, NULL);
@@ -17,8 +17,8 @@ void main(){
 	while(!exitFlag){
 		c = getchar();
 		if(c == '%'){
-			char ** ss = 6500000;
-			char * sos = 7000000;
+			char ** ss = malloc(sizeof(char **));
+			char * sos = malloc(30);
 			ss[0] = sos;
 			scanFF("%s",ss, NULL);
 			if(strcmp(sos,"exit") == 0){

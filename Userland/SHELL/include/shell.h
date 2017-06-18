@@ -1,5 +1,15 @@
-
+void helpShell();
 void parser(char * buffer);
 int shell();
 void exectue(int n);
 void editor();
+void ls();
+void man(char * buffer);
+void run(char * c);
+void echoShellON();
+void echoShellOFF();
+void error(char * buffer);
+void clearShell();
+void errorParser(int error);
+void printShellComand();
+void parser(char * buffer);

@@ -104,6 +104,7 @@ int main(int error){
 	char ** ss = 6500000;
 	char * sos = 7000000;
 	ss[0] = sos;
+	putNumber(error);
 	while(1){
 		putchar('\n');
 		errorParser(error);

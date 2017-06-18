@@ -14,12 +14,17 @@ static int bufferSize;
 static int isEcho;
 
 int isBufferFull(){
+	cli();
 	return ((bufferConsume == (bufferPosition+1)) || 
 	(bufferConsume == (bufferStart+bufferSize) && (bufferPosition == bufferStart)));
+	sti();
 }
 int isBufferEmpty(){
+	cli();
 	return bufferConsume == bufferPosition;
+	sti();
 }
+
 
 
 void echoON(){

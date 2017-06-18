@@ -25,11 +25,14 @@ static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
+static void * const editorAddress = (void*)0x700000;
 static void * const currentAddress = (void*)0x800000;
 
 
 
 typedef int (*EntryPoint)();
+typedef int (*EntryPointS)(int);
+
 
 void read();
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -63,7 +66,7 @@ void * initializeKernelBinary()
 	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
-		sampleDataModuleAddress, dummyAddress, shellAddress
+		sampleDataModuleAddress, dummyAddress, shellAddress, editorAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
@@ -149,7 +152,7 @@ int main()
 	 mapModulesLogical(0xC00000);
 	 updateCR3();
 	 resetBuffer();
-	((EntryPoint)currentAddress)();
+	(*(EntryPointS)currentAddress)(0);
 	
 	while(1);
 	

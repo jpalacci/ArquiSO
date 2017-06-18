@@ -21,6 +21,8 @@ GLOBAL cli
 GLOBAL updateCR3
 GLOBAL pageFaultHandler
 EXTERN pageFaultHandlerC
+GLOBAL generalProtectionHandler
+EXTERN generalProtectionHandlerC
 
 GLOBAL master
 GLOBAL slave
@@ -124,6 +126,18 @@ pageFaultHandler:
 	pop rbp
 	sti
 	iretq
+
+generalProtectionHandler:
+	cli
+	push rbp
+	mov rbp, rsp
+	call generalProtectionHandlerC
+	mov rsp, rbp
+	pop rbp
+	sti
+	iretq
+
+
 
 sys_callHandler:
 	cli

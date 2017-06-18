@@ -8,4 +8,6 @@ void keyboardHandlerC();
 void keyboardHandler();
 void registrer_Mouse();
 void sys_callHandler();
+void generalProtectionHandler();
+void generalProtectionHandlerC();
 void spure();

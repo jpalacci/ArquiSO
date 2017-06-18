@@ -23,6 +23,7 @@ typedef struct IDT_Entry {
 }IDT_Entry;
 
 typedef int (*EntryPoint)();
+typedef int (*EntryPointS)(int);
 
 #pragma pack(pop)
 
@@ -58,7 +59,8 @@ void loadIDT()
 	setIDTEntry((uint64_t) master,0x2D); 
 	setIDTEntry((uint64_t) master,0x2E);
 	
-	setIDTEntry((uint64_t) pageFaultHandler,0x0D); 
+	setIDTEntry((uint64_t) generalProtectionHandler,0x0E); 
+	setIDTEntry((uint64_t) pageFaultHandler,0x0E); 
 	setIDTEntry((uint64_t) sys_callHandler,0x80); 
 	setIDTEntry((uint64_t) keyboardHandler,0x21);
 	setIDTEntry((uint64_t) mouse_handler,0x2C); 
@@ -99,6 +101,17 @@ void timerTickHandlerC()
 	printMsg(2,0,time,0x20);
 }
 
+void generalProtectionHandlerC(){
+	int i;
+	for(i=25; i>2;i--){
+		clearRow(i);
+	}
+	setCursor(3,0);
+	mapModulesLogical(shellAddress);
+	updateCR3();
+	(*(EntryPointS)currentAddress)(1);
+}
+
 void pageFaultHandlerC(){
 	int i;
 	for(i=25; i>2;i--){
@@ -107,7 +120,7 @@ void pageFaultHandlerC(){
 	setCursor(3,0);
 	mapModulesLogical(shellAddress);
 	updateCR3();
-	((EntryPoint)currentAddress)();
+	(*(EntryPointS)currentAddress)(2);
 }
 
 

@@ -4,9 +4,11 @@
 #include <video.h>
 
 #define DUMMY  1
+#define EDITOR 2
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
 static void * const currentAddress = (void*)0x800000;
+static void * const editorAddress = (void*)0xB00000;
 typedef int (*EntryPoint)();
 
 void mapModulesLogical(uint64_t  physical );
@@ -64,6 +66,9 @@ void sys_call_runC(int program){
 
 		case DUMMY:
 			moduleAdress = dummyAddress;
+			break;
+		case EDITOR:
+			moduleAdress = editorAddress;
 			break;
 	}
 	mapModulesLogical(moduleAdress);

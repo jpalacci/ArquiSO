@@ -46,7 +46,10 @@ void run(char * c){
 	if(!strcmp("dummy", c)){
 		sys_call(7,0,1);
 	}
-	if(!strcmp("editor"));
+	else if(!strcmp("editor")){
+		sys_call(7,0,2);
+	}
+	return;
 }
 
 void echoShellON(){
@@ -72,6 +75,22 @@ void clearShell(){
 	sys_call(5,0,0);
 }
 
+void errorParser(int error){
+	char ** s = 5000000;
+	char * str;
+	if(error == 1){
+	str = "General Protection";
+	s[0] = str;
+	printFF("%s",s,NULL);
+	return;
+	}
+	if(error == 2){
+	s[0] = str;
+	printFF("%s",s,NULL);
+	return;
+	}
+}
+
 
 //shell
 
@@ -81,12 +100,13 @@ void printShellComand(){
 	s[0] = str;
 	printFF("%s",s,NULL);
 }
-int main(){
+int main(int error){
 	char ** ss = 6500000;
 	char * sos = 7000000;
 	ss[0] = sos;
 	while(1){
 		putchar('\n');
+		errorParser(error);
 		printShellComand();
 		if(scanFF("%s",ss, NULL)==0){
 			parser(sos);
@@ -137,24 +157,3 @@ void parser(char * buffer){
 	error(buffer);
 	
 	}
-void editor(){
-	char ** s = 600000;
-	char * editor = "chomp\n";
-	s[0]= editor;
-	printFF("%s",s, NULL);
-	char c;
-	int exitFlag = 0;
-	while(!exitFlag){
-		c = getchar();
-		if(c == '%'){
-			char ** ss = 6500000;
-			char * sos = 7000000;
-			ss[0] = sos;
-			scanFF("%s",ss, NULL);
-			if(strcmp(sos,"exit") == 0){
-				exitFlag = 1;
-				clearShell();
-			}
-		}
-	}
-}

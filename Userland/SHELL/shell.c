@@ -75,6 +75,19 @@ void clearShell(){
 	sys_call(5,0,0);
 }
 
+void changeToUserEnvirnment(){
+	sys_call(8,6,4);
+	undoBackwards();
+}
+
+void changeToSehllEnvironment(){
+	sys_call(8,0,4);
+}
+
+void undoBackwards(){
+	sys_call(9,7,0);
+}
+
 void errorParser(int error){
 	char ** s = malloc(sizeof(char *));
 	char * str;
@@ -100,16 +113,17 @@ void printShellComand(){
 	s[0] = str;
 	printFF("%s",s,NULL);
 }
-int main(int error){
+int main(){
 	char ** ss = malloc(sizeof(char *));
 	char * sos = malloc(100);
 	ss[0] = sos;
-	putNumber(error);
 	while(1){
 		putchar('\n');
-		errorParser(error);
+		changeToSehllEnvironment();
 		printShellComand();
+		changeToUserEnvirnment();
 		if(scanFF("%s",ss, NULL)==0){
+			changeToSehllEnvironment();
 			parser(sos);
 		}else {
 			char ** s = 600000;
@@ -121,9 +135,6 @@ int main(int error){
 
 	}
 	
-}
-void exit(){
-	return;
 }
 
 void parser(char * buffer){

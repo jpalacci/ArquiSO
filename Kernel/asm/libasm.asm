@@ -15,12 +15,15 @@ EXTERN sys_call_readC
 EXTERN sys_call_clearC
 EXTERN sys_call_echoC
 EXTERN sys_call_runC
+EXTERN sys_call_changeModuleEnvironmetC
+EXTERN sys_call_undoBackwardsC
 GLOBAL cli
 GLOBAL updateCR3
 GLOBAL pageFaultHandler
 EXTERN pageFaultHandlerC
 GLOBAL generalProtectionHandler
 EXTERN generalProtectionHandlerC
+
 
 GLOBAL master
 GLOBAL slave
@@ -163,9 +166,20 @@ echo:
 	call sys_call_echoC
 run:
 	cmp eax, 7
-	jne finish
+	jne moduleEnvironment
 	mov rdi,rcx
 	call sys_call_runC
+moduleEnvironment:
+	cmp eax, 8
+	jne undoBackwards
+	mov rdi,rdx
+	mov rsi,rcx
+	call sys_call_changeModuleEnvironmetC
+undoBackwards:
+	cmp eax, 9
+	jne finish
+	mov rdi,rdx
+	call sys_call_undoBackwardsC
 finish:
 	mov rdi,rax
 	mov al, 20h
@@ -175,6 +189,7 @@ finish:
 	pop rbp
 	sti
 	iretq
+
 
 master:
 	call spure

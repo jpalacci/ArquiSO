@@ -16,6 +16,10 @@ static int j=3;  // posicion del cursor vertical
 static char mouseSelect[HEIGHT*WIDTH];
 static int size=0;
 
+static int iStartModule = 0;
+static int jStartModule = 3;
+static int stopBackWards = -1;
+
 
 //static int timeCount=0;
 
@@ -31,6 +35,30 @@ static int size=0;
 // 	timeCount++;
 
 // }
+
+void changeStartModule(int f, int c){
+	if(f<0 || f>WIDTH || c < 3 || c>HEIGHT){
+		return;
+	}
+	jStartModule = c;
+	iStartModule = f;
+	i=f;
+}
+
+void changeStopBackwards(int from){
+	stopBackWards = from;
+	return;
+}
+
+int isBackwardsOn(){
+	if(stopBackWards == -1){
+		return 1;
+	}
+	return (stopBackWards <= i);
+
+}
+
+
 void putChar(char a ) { // se define color estandar
 		printChar(j,i, a ,DEFAULT );
 		forwardCursor();

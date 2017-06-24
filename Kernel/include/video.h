@@ -25,6 +25,9 @@ void changeColor(int f, int c, char color);
 void undoSelection(int finit, int cinit, int ffin, int cfin);
 void paste();
 void copyMouse(int initial, int end);
+void changeStartModule(int i, int j);
+void changeStopBackwards(int from);
+int isBackwardsOn();
 
 
 

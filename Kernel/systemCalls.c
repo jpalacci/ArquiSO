@@ -77,3 +77,12 @@ void sys_call_runC(int program){
 	((EntryPoint)currentAddress)();
 
 }
+
+void sys_call_changeModuleEnvironmetC(int i, int j){
+	changeStartModule(i,j);
+	return;
+}
+
+void sys_call_undoBackwardsC(int from){
+	changeStopBackwards(from);
+}

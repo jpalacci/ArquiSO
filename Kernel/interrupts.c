@@ -59,7 +59,7 @@ void loadIDT()
 	setIDTEntry((uint64_t) master,0x2D); 
 	setIDTEntry((uint64_t) master,0x2E);
 	
-	setIDTEntry((uint64_t) generalProtectionHandler,0x0E); 
+	setIDTEntry((uint64_t) generalProtectionHandler,0x0D); 
 	setIDTEntry((uint64_t) pageFaultHandler,0x0E); 
 	setIDTEntry((uint64_t) sys_callHandler,0x80); 
 	setIDTEntry((uint64_t) keyboardHandler,0x21);
@@ -106,6 +106,7 @@ void generalProtectionHandlerC(){
 	for(i=25; i>2;i--){
 		clearRow(i);
 	}
+	printMsg(3,0,"General Protection", 0x11);
 	setCursor(3,0);
 	mapModulesLogical(shellAddress);
 	updateCR3();
@@ -117,6 +118,7 @@ void pageFaultHandlerC(){
 	for(i=25; i>2;i--){
 		clearRow(i);
 	}
+	printMsg(3,0,"Page Fault", 0x11);
 	setCursor(3,0);
 	mapModulesLogical(shellAddress);
 	updateCR3();

@@ -1,13 +1,8 @@
-
 #include "stdio.h"
 
+int main(){
+	clearEditor();
 
-void clearEditor(){
-	sys_call(5,0,0);
-}
-
-void main(){
-	//clearEditor();
 	char ** s = malloc(sizeof(char **));
 	char * editor = "chomp\n";
 	s[0]= editor;
@@ -27,5 +22,20 @@ void main(){
 			}
 		}
 	}
+
+	return 0;
 }
+
+
+
+void clearEditor(){
+	sys_call(5,0,0);
+}
+
+
+
+
+
+
+
 

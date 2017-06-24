@@ -107,6 +107,16 @@ void mapModulesLogical(uint64_t  physical ){
 
 }
 
+//in logical 0xA00000 bit present false
+
+void testPageFault(){
+	uint64_t * PDbase= (uint64_t*) 0x10000;
+	uint64_t * userEntry= PDbase + 5;
+	*userEntry= 0x8E;// + 0x8B;
+
+}
+
+
 
 int main()
 {	
@@ -144,6 +154,11 @@ int main()
 	enablePIC();
 
 	sti();
+
+
+	
+
+
 	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
 	char time[9];
 	printMsg(1,0,"La hora local es:",0x0F);

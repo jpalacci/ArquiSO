@@ -8,7 +8,7 @@
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
 static void * const currentAddress = (void*)0x800000;
-static void * const editorAddress = (void*)0xD00000;
+static void * const editorAddress = (void*)0xE00000;
 typedef int (*EntryPoint)();
 
 void mapModulesLogical(uint64_t  physical );
@@ -59,7 +59,7 @@ void sys_call_echoC(int on){
 }
 
 void sys_call_runC(int program){
-	char * moduleAdress;
+	void * moduleAdress;
 	switch(program){
 
 		case DUMMY:
@@ -72,6 +72,7 @@ void sys_call_runC(int program){
 	mapModulesLogical(moduleAdress);
 	updateCR3();
 	((EntryPoint)currentAddress)();
+
 	mapModulesLogical(shellAddress);
 	updateCR3();
 	((EntryPoint)currentAddress)();

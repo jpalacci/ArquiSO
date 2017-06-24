@@ -7,7 +7,7 @@ void clearEditor(){
 }
 
 void main(){
-	clearEditor();
+	//clearEditor();
 	char ** s = malloc(sizeof(char **));
 	char * editor = "chomp\n";
 	s[0]= editor;

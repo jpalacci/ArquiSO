@@ -196,6 +196,18 @@ void backwardCursor(){
 		i--;
 
 	}
+}
+
+void backInLine(){
+	if(i==iStartModule){
+		if(j!=jStartModule){
+			return;
+		}
+		//Llegamos a principio pantalla, nada que borrar
+	}else{
+		i--;
+
+	}
 }		
 
 

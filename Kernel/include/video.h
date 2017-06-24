@@ -28,7 +28,7 @@ void copyMouse(int initial, int end);
 void changeStartModule(int i, int j);
 void changeStopBackwards(int from);
 int isBackwardsOn();
-
+void backInLine();
 
 
 

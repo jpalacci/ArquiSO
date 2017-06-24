@@ -64,9 +64,9 @@ void putTerminalBuffer(char c){
 	cli();
 	*bufferPosition = c;
 	if(c == '\b'){
-		backwardCursor();
+		backInLine();
 		putChar(' ');
-		backwardCursor();
+		backInLine();
 	}
 	else if(c == '\n'){
 		lineJump();

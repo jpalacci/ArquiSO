@@ -1,4 +1,5 @@
 #include <video.h>
+#include <terminal.h>
 
 #define SCREEN 0xB8000
 #define BLACK 0x00
@@ -11,6 +12,9 @@ static char video[HEIGHT][WIDTH];
 static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
 static int j=3;  // posicion del cursor vertical
+
+static char mouseSelect[HEIGHT*WIDTH];
+static int size=0;
 
 
 //static int timeCount=0;
@@ -56,6 +60,7 @@ void selection(int finit, int cinit, int ffin, int cfin){
  
 	int i= finit*WIDTH+ cinit;
 	int fin= ffin*WIDTH+cfin;
+	copyMouse(i , fin);
 	while(validPosition(i/WIDTH,i%WIDTH) && i<=fin ){
 		
 		drawMouse(i/WIDTH,i%WIDTH);
@@ -138,7 +143,7 @@ void scroll(){
 void copyRow(int from, int to){
 	for(int k=0; k<WIDTH;k++){
 		video[to][k]=video[from][k];
-		attributes[to][k]=attributes[from][k];
+		//attributes[to][k]=attributes[from][k];
 		clearPosition(from,k);
 	}
 }
@@ -223,4 +228,23 @@ void clear()
 	}
 
 	updateScreen();
+}
+
+void copyMouse(int initial, int end){
+
+	size=end-initial+1;
+	int h=0;
+	for(h=0; h<size; h++){
+		char c=getScreen((h+initial)/WIDTH , (h+initial)%WIDTH);
+		if(c==0){
+			c=' ';
+		}
+		mouseSelect[h]=c;
+	}
+
+}
+
+void paste(){
+	for(int h=0; h<size; h++)
+		putTerminalBuffer(mouseSelect[h]);
 }

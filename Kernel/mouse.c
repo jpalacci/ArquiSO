@@ -87,6 +87,7 @@ uint8_t mouse_read()
 	return t;
 }
 
+static int flag=0;
 static int x=10;
 static int y=10;
 static int xinit=0;
@@ -164,7 +165,11 @@ void mouse_handlerC()
 						
 						if(mouse_byte[0] & 0x02)
 						{
-							printMsg(4,0,"Right Click",0x20);
+							flag=1;
+
+						}else if(flag==1){
+							paste();
+							flag=0;
 						}
 						if(mouse_byte[0] & 0x04)
 						{
@@ -191,10 +196,15 @@ void mouse_handlerC()
 
 						
 					
-						mouse_cycle = 0;
+						mouse_cycle = 4;
 						break;
 			}
 		}
+		if(mouse_cycle>=4){
+			mouse_cycle=0;
+			return;
+
+		} 
 		status = inputb(0x64);
 	}
 

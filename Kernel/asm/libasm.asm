@@ -9,8 +9,6 @@ EXTERN keyboardHandlerC
 GLOBAL test
 GLOBAL mouse_handler
 EXTERN mouse_handlerC
-GLOBAL terminalInitialize
-EXTERN terminalInitializeC
 GLOBAL sys_callHandler
 EXTERN sys_call_writeC
 EXTERN sys_call_readC
@@ -219,25 +217,12 @@ cli:
 	ret
 
 
-terminalInitialize:
-	push rbp
-	mov rbp, rsp
-	mov rsi,0;
-	mov rdi, KeyBoardBuffer
-	mov rsi,0
-	mov rsi,10
-	call terminalInitializeC
-	mov rsp, rbp
-	pop rbp
-	ret
-
 
 section .data
 
 msg db "hola mundo",0
 
-section .bss
-KeyBoardBuffer resb 10
+
 
 
 

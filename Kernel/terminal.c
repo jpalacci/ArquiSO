@@ -7,6 +7,9 @@
 #include <lib.h>
 #include <naiveConsole.h>
 
+
+
+static char Buffer[500];
 static char * bufferConsume;
 static char * bufferPosition;
 static char * bufferStart;
@@ -84,7 +87,7 @@ void putTerminalBuffer(char c){
 int getTerminalBuffer(char * buffer, uint32_t length){
 	cli();
 	int charsConsume = 0;
-	while(length != 0){
+	while(length != 0 ){
 			if(isBufferEmpty()){
 				sti();
 				return charsConsume;

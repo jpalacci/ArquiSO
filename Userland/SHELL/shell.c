@@ -122,6 +122,9 @@ int main(int error){
 	}
 	
 }
+void exit(){
+	return;
+}
 
 void parser(char * buffer){
 	if(!strcmp("help", buffer)){

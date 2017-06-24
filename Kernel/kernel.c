@@ -138,7 +138,7 @@ int main()
 	
 	
 	cli();
-	terminalInitialize();
+	terminalInitializeC();
 	loadIDT();
 	mouse_init();
 	enablePIC();

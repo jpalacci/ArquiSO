@@ -23,6 +23,8 @@ void copyRow(int from, int to);
 void selection(int finit, int cinit, int ffin, int cfin);
 void changeColor(int f, int c, char color);
 void undoSelection(int finit, int cinit, int ffin, int cfin);
+void paste();
+void copyMouse(int initial, int end);
 
 
 

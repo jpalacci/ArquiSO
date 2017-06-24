@@ -88,21 +88,6 @@ void undoBackwards(){
 	sys_call(9,7,0);
 }
 
-void errorParser(int error){
-	char ** s = malloc(sizeof(char *));
-	char * str;
-	if(error == 1){
-	str = "General Protection";
-	s[0] = str;
-	printFF("%s",s,NULL);
-	return;
-	}
-	if(error == 2){
-	s[0] = str;
-	printFF("%s",s,NULL);
-	return;
-	}
-}
 
 
 //shell

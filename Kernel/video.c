@@ -124,7 +124,7 @@ void forwardCursor(){
 			updateScreen();
 		}else{
 			j++;
-			i=0;
+			i=iStartModule;
 		}
 	}else{
 		i++;
@@ -139,7 +139,7 @@ void forwardCursorB(){
 			 return;
 		}else{
 			j++;
-			i=0;
+			i=iStartModule;
 		}
 	}else{
 		i++;
@@ -186,8 +186,8 @@ void clearPosition(int f, int c){
 	video[f][c]=' ';
 }
 void backwardCursor(){
-	if(i==0){
-		if(j!=0){
+	if(i==iStartModule){
+		if(j!=jStartModule){
 			j--;
 			i=WIDTH-1;
 		}

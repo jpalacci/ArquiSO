@@ -120,6 +120,7 @@ void mouse_handlerC()
 						mouse_byte[2] = mouse_in;
 						if(mouse_byte[0] & 0x80 || mouse_byte[0] & 0x40)
 						{
+							mouse_cycle = 4;
 							break;
 						}
 						if(mouse_byte[0] & 0x01)
@@ -200,12 +201,13 @@ void mouse_handlerC()
 						break;
 			}
 		}
+		status = inputb(0x64);
 		if(mouse_cycle>=4){
 			mouse_cycle=0;
 			return;
 
 		} 
-		status = inputb(0x64);
+		
 	}
 
 }

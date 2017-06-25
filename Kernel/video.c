@@ -161,12 +161,12 @@ void lineJump(){
 
 void scroll(){
 	int auxf;
-	for(auxf=1; auxf<HEIGHT;auxf++){
+	for(auxf=jStartModule+1; auxf<HEIGHT;auxf++){
 		copyRow(auxf,auxf-1);
 	}
 	clearRow(HEIGHT-1);
 	j=HEIGHT-1;
-	i=0;
+	i=iStartModule;
 }
 void copyRow(int from, int to){
 	for(int k=0; k<WIDTH;k++){

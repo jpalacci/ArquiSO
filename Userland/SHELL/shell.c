@@ -100,7 +100,7 @@ void printShellComand(){
 }
 int main(){
 	char ** ss = malloc(sizeof(char *));
-	char * sos = malloc(100);
+	char * sos = malloc(2500);
 	ss[0] = sos;
 	while(1){
 		putchar('\n');

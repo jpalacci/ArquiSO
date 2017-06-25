@@ -8,7 +8,7 @@
 #define WIDTH 80
 #define HEIGHT 25
 
-static char video[HEIGHT][WIDTH];
+static char video[HEIGHT][WIDTH] = {0};
 static char attributes[HEIGHT][WIDTH];
 static int i=0; //posicion del cursor horizontal
 static int j=3;  // posicion del cursor vertical

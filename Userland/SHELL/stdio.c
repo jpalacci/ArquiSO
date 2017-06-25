@@ -3,7 +3,7 @@
 #define LETTER  0
 #define FORMAT  1
 #define NULL 0
-#define BUFFERSIZE 100
+#define BUFFERSIZE 2500
 
 
 int putchar(char c){
@@ -175,7 +175,7 @@ int scanFF(const char * format, char ** s, int * n){
 }
 
 void * malloc(int bytes){
-	static void * position = 0x700000;
+	static void * position = 0x1000000;
 	void * aux = position;
 	position+=bytes;
 	return aux;

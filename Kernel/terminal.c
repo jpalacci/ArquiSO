@@ -9,7 +9,7 @@
 
 
 
-static char Buffer[500];
+static char Buffer[2500];
 static char * bufferConsume;
 static char * bufferPosition;
 static char * bufferStart;

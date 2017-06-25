@@ -110,6 +110,7 @@ int scanFF(const char * format, char ** s, int * n){
  int bufferindex;
  int state = LETTER;
  int indexS = 0;
+ int indexN = 0;
  while(*format != 0){
  	switch(state){
 
@@ -128,8 +129,9 @@ int scanFF(const char * format, char ** s, int * n){
 		case FORMAT:
 			if(*format == 'd'){
 				if(n != NULL){
-					int nummber = *n;
+					int nummber = n[indexN];
 				n++;
+				indexN++;
 				putNumber(nummber);
 				state = LETTER;
 				format++;

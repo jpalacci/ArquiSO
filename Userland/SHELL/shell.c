@@ -1,5 +1,3 @@
-
-
 #include "stdio.h"
 #include "shell.h"
 
@@ -46,7 +44,7 @@ void run(char * c){
 	if(!strcmp("dummy", c)){
 		sys_call(7,0,1);
 	}
-	else if(!strcmp("editor")){
+	else if(!strcmp("editor",c)){
 		sys_call(7,0,2);
 	}
 	return;

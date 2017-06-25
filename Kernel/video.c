@@ -132,7 +132,7 @@ void forwardCursor(){
 
 }
 
-void forwardCursorB(){
+/*void forwardCursorB(){
 
 	if(i==WIDTH-1){
 		if(j==HEIGHT-1){
@@ -145,7 +145,7 @@ void forwardCursorB(){
 		i++;
 	}
 
-}
+}*/
 
 void lineJump(){
 	if(j==HEIGHT-1) {

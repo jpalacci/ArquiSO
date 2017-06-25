@@ -107,7 +107,6 @@ char kbd_EN[][4] = {
 };
 
 
-static int counter = 0;
 static int shift=OFF;
 static int caps=OFF;
 

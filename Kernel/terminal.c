@@ -7,9 +7,11 @@
 #include <lib.h>
 #include <naiveConsole.h>
 
+#define  BUFFERSIZE 2500
 
 
-static char Buffer[2500];
+static char Buffer[BUFFERSIZE];
+
 static char * bufferConsume;
 static char * bufferPosition;
 static char * bufferStart;
@@ -40,11 +42,11 @@ void echoOF(){
 
 //funcion para inicializar la terminal
 //esta tiene que ir antes de que lleguen las interrupciones
-void terminalInitializeC(char * Buffer, int size){
+void terminalInitializeC(){
 	bufferConsume = Buffer;
 	bufferStart = Buffer;
 	bufferPosition = Buffer;
-	bufferSize = size;
+	bufferSize = BUFFERSIZE;
 	isEcho = 1;
 
 }

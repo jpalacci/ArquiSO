@@ -5,6 +5,7 @@
 #include <keyboard.h>
 #include <mouse.h>
 #include <naiveConsole.h>
+#include <moduleLoader.h>
 
 void io_wait();
 static void * const shellAddress = (void*)0xC00000;

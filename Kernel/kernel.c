@@ -8,6 +8,7 @@
 #include <keyboard.h>
 #include <interrupts.h>
 #include <mouse.h>
+#include <terminal.h>
 
 
 extern uint8_t text;
@@ -99,22 +100,6 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-void mapModulesLogical(uint64_t  physical ){
-		uint64_t * PDbase= (uint64_t*) 0x10000;
-		uint64_t * userEntry= PDbase + 4;
-		*userEntry= physical + 0x8F;// + 0x8B;
-		return;
-
-}
-
-//in logical 0xA00000 bit present false
-
-void testPageFault(){
-	uint64_t * PDbase= (uint64_t*) 0x10000;
-	uint64_t * userEntry= PDbase + 5;
-	*userEntry= 0x8E;// + 0x8B;
-
-}
 
 
 
@@ -160,11 +145,10 @@ int main()
 
 
 	printMsg(0,0,"Arquitecturas de computadoras",0x0F);
-	char time[9];
 	printMsg(1,0,"La hora local es:",0x0F);
 
 	//memcpy((void*)0x700000, dummyAddress, 0x10000);
-	 mapModulesLogical(0xC00000);
+	 mapModulesLogical((void*)0xC00000);
 	 updateCR3();
 	 resetBuffer();
 	(*(EntryPointS)currentAddress)(0);

@@ -3,4 +3,7 @@
 
 void loadModules(void * payloadStart, void ** moduleTargetAddress);
 
+  void mapModulesLogical(void*  physical );
+ void testPageFault();
+
 #endif

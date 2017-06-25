@@ -1,7 +1,8 @@
-
 #include <stdint.h>
 #include <terminal.h>
 #include <video.h>
+#include <lib.h>
+#include <moduleLoader.h>
 
 #define DUMMY  1
 #define EDITOR 2
@@ -11,7 +12,6 @@ static void * const currentAddress = (void*)0x800000;
 static void * const editorAddress = (void*)0xE00000;
 typedef int (*EntryPoint)();
 
-void mapModulesLogical(uint64_t  physical );
 //escribe en el file descriptor que le pasen.
 //solo tiene implementado para imprimir por salida estandar
 void sys_call_writeC(uint32_t stdout, char * msg, uint32_t length){

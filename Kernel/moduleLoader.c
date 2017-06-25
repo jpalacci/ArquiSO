@@ -41,3 +41,21 @@ static uint32_t readUint32(uint8_t ** address)
 	*address += sizeof(uint32_t);
 	return result;
 }
+
+  void mapModulesLogical(void*  physical ){
+		uint64_t * PDbase= (uint64_t*) 0x10000;
+		uint64_t * userEntry= PDbase + 4;
+		*userEntry= (uint64_t)physical + 0x8F;// + 0x8B;
+		return;
+
+}
+
+//in logical 0xA00000 bit present false
+
+ void testPageFault(){
+	uint64_t * PDbase= (uint64_t*) 0x10000;
+	uint64_t * userEntry= PDbase + 5;
+	*userEntry= 0x8E;// + 0x8B;
+
+}
+

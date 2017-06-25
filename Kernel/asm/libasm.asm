@@ -144,10 +144,10 @@ sys_callHandler:
 	cli
 	push rbp
 	mov rbp, rsp
-	cmp eax, 4
 	mov rdi,rbx
 	mov rsi,rcx
 	mov rdx,rdx
+	cmp eax, 4
 	jne read
 	call sys_call_writeC
 	jp finish

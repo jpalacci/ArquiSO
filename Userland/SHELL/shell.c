@@ -109,7 +109,7 @@ int main(){
 			changeToSehllEnvironment();
 			parser(sos);
 		}else {
-			char ** s = 600000;
+			char ** s = malloc(sizeof(char *));
 			char * help = "ScanFF Buffer OverFlow";
 			s[0]= help;
 			putchar('\n');

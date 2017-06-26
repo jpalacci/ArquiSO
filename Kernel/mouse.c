@@ -97,7 +97,6 @@ static int yfin=0;
 static int selecting=0;
 void mouse_handlerC()
 {
-	printMsg(10,0,"hey",0x20);
 	uint8_t status = inputb(0x64);
 	while(status & 0x01)
 	{
@@ -174,7 +173,8 @@ void mouse_handlerC()
 						}
 						if(mouse_byte[0] & 0x04)
 						{
-							printMsg(4,0,"Middle Click",0x20);
+
+							//printMsg(4,0,"Middle Click",0x20);
 						}
 						int8_t d= mouse_byte[0];
 						int rel_x=0;

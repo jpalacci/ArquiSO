@@ -47,6 +47,9 @@ void run(char * c){
 	else if(!strcmp("editor",c)){
 		sys_call(7,0,2);
 	}
+	else if(!strcmp("fortune",c)){
+		sys_call(7,0,2);
+	}
 	return;
 }
 

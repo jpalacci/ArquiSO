@@ -2,10 +2,12 @@ include Makefile.inc
 
 SAMPLE_DATA=0001-sampleDataModule.bin
 
-all: dummy sampleCodeModule sampleDataModule SHELL EDITOR
+all: dummy sampleCodeModule sampleDataModule SHELL EDITOR FORTUNE
 
 EDITOR:
 	cd EDITOR; make
+FORTUNE:
+	cd FORTUNE; make	
 SHELL:
 	cd SHELL; make
 dummy:
@@ -21,7 +23,8 @@ clean:
 	cd dummy; make clean
 	cd SHELL; make clean
 	cd EDITOR; make clean
+	cd FORTUNE; make clean
 	rm -rf *.bin
 
 
-.PHONY: dummy SampleCodeModule  SHELL EDITOR all clean
+.PHONY: dummy SampleCodeModule  SHELL EDITOR FORTUNE all clean

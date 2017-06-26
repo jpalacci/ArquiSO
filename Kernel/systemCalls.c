@@ -6,10 +6,12 @@
 
 #define DUMMY  1
 #define EDITOR 2
+#define FORTUNE 3
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
 static void * const currentAddress = (void*)0x800000;
 static void * const editorAddress = (void*)0xE00000;
+static void * const fortuneAddress = (void*)0x600000;
 typedef int (*EntryPoint)();
 
 //escribe en el file descriptor que le pasen.
@@ -68,6 +70,10 @@ void sys_call_runC(int program){
 		case EDITOR:
 			moduleAdress = editorAddress;
 			break;
+
+		case FORTUNE:
+			moduleAdress=fortuneAddress;
+			break;	
 	}
 	mapModulesLogical(moduleAdress);
 	updateCR3();

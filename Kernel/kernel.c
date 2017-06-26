@@ -24,6 +24,7 @@ static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
+static void * const fortuneAddress = (void*)0x600000;
 static void * const dummyAddress = (void*)0xA00000;
 static void * const shellAddress = (void*)0xC00000;
 static void * const editorAddress = (void*)0xE00000;
@@ -67,7 +68,7 @@ void * initializeKernelBinary()
 	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
-		sampleDataModuleAddress, dummyAddress, shellAddress, editorAddress
+		sampleDataModuleAddress, dummyAddress, shellAddress, editorAddress, fortuneAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);

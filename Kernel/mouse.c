@@ -3,6 +3,11 @@
 #include <mouse.h>
 #include <interrupts.h>
 
+
+// Ver los siguientes links:
+//link1: houbysoft.com : http://houbysoft.com/download/ps2mouse.html
+//link2:  stevej:  http://github.com/stevej/osdev/blob/master/kernel/devices/mouse.c
+
 uint8_t mouse_cycle = 0;
 int8_t mouse_byte[3];
 

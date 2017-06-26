@@ -10,22 +10,14 @@ int main(void){
 	printFF("%s",&name, NULL);
 
 	if(scanFF("%s",ss, NULL)==0){
-			char * yourFortune
-			if(strcmp(name,"Augusto")==0 ||strcmp(name,"augusto")==0 ){
-					yourFortune="mmmmmm...Interesante... veo a un tal Augusto, pero
-					veo mala suerte, oscuridad. Pero tambien veo luz que solo  obtendra 
-					si realiza una accion: 'Aprobar a este grupo' ";
-			}else if(strcmp(name,"Santiago")==0 ||strcmp(name,"santiago")==0 ){
-					yourFortune="Veo poder, veo a un director, veo felicidad , veo ganas de aprobar a sus alumnos";
-			}else{		
-
+			char * yourFortune;
 			int longitud=0;
 
 			while(string[longitud]!=0){
 				longitud++;
 			}
 			yourFortune= magic(longitud);
-			}
+			
 
 
 			printFF("%s",&yourFortune, NULL);

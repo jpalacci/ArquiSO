@@ -48,7 +48,7 @@ void run(char * c){
 		sys_call(7,0,2);
 	}
 	else if(!strcmp("fortune",c)){
-		sys_call(7,0,2);
+		sys_call(7,0,3);
 	}
 	return;
 }

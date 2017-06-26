@@ -18,7 +18,7 @@ int main(void){
 			char * yourFortune= magic(longitud);
 			printFF("%s",&yourFortune, NULL);
 		}else {
-			char ** s = 600000;
+			char ** s = malloc(sizeof(char*));
 			char * help = "ScanFF Buffer OverFlow";
 			s[0]= help;
 			putchar('\n');
